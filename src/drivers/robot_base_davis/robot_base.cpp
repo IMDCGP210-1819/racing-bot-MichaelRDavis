@@ -31,7 +31,10 @@
 #include <robottools.h>
 #include <robot.h>
 
+#include "../robot_base_davis/robot_behavior.h"
+
 static tTrack	*curTrack;
+static RobotFSM	robotAI;
 
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s); 
 static void newrace(int index, tCarElt* car, tSituation *s); 
@@ -93,18 +96,9 @@ newrace(int index, tCarElt* car, tSituation *s)
 static void  
 drive(int index, tCarElt* car, tSituation *s) 
 { 
-    memset((void *)&car->ctrl, 0, sizeof(tCarCtrl)); 
+    memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
 
-	float angle;
-	const float SC = 1.0f;
-	angle = RtTrackSideTgAngleL(&(car->_trkPos)) - car->_yaw;
-	NORM_PI_PI(angle);
-	angle -= SC * car->_trkPos.toMiddle / car->_trkPos.seg->width;
-
-	car->_steerCmd = angle / car->_steerLock;
-	car->ctrl.gear = 1;
-    car->ctrl.brakeCmd = 0.0;
-	car->ctrl.accelCmd = 0.5f;
+	robotAI.calculate(index, car, s);
 }
 
 /* End of the current race */
