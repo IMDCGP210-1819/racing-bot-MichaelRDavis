@@ -98,16 +98,13 @@ drive(int index, tCarElt* car, tSituation *s)
 	float angle;
 	const float SC = 1.0f;
 	angle = RtTrackSideTgAngleL(&(car->_trkPos)) - car->_yaw;
+	NORM_PI_PI(angle);
+	angle -= SC * car->_trkPos.toMiddle / car->_trkPos.seg->width;
 
-    car->ctrl.brakeCmd = 1.0; /* all brakes on ... */ 
-    /*  
-     * add the driving code here to modify the 
-     * car->_steerCmd 
-     * car->_accelCmd 
-     * car->_brakeCmd 
-     * car->_gearCmd 
-     * car->_clutchCmd 
-     */ 
+	car->_steerCmd = angle / car->_steerLock;
+	car->ctrl.gear = 1;
+    car->ctrl.brakeCmd = 0.0;
+	car->ctrl.accelCmd = 0.5f;
 }
 
 /* End of the current race */
