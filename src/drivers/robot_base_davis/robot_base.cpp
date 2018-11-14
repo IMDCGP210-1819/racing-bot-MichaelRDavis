@@ -31,10 +31,9 @@
 #include <robottools.h>
 #include <robot.h>
 
-#include "../robot_base_davis/robot_behavior.h"
+#include "../robot_base_davis/robot.h"
 
 static tTrack	*curTrack;
-static RobotFSM	robotAI;
 
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s); 
 static void newrace(int index, tCarElt* car, tSituation *s); 
@@ -98,7 +97,8 @@ drive(int index, tCarElt* car, tSituation *s)
 { 
     memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
 
-	robotAI.calculate(index, car, s);
+	robot myRobot(index, car, s);
+	myRobot.run();
 }
 
 /* End of the current race */
