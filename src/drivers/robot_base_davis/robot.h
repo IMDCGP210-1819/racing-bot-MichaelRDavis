@@ -9,9 +9,11 @@
 
 class robotFSM;
 
+/* Robot handles driving commands for the car */
 class robot
 {
 public:
+	/* Robot constructor */
 	robot(int index, tCarElt* car, tSituation *s);
 	~robot();
 
@@ -31,10 +33,10 @@ public:
 
 private:
 	robotFSM* robotAI;
-	int m_index;
 	tCarElt* m_car;
 	tSituation* m_situation;
-	float angle;
 	const float SC = 1.0f;
+	float angle;
+	int m_index;
 	int m_stuckCount;
 };

@@ -177,6 +177,8 @@
     <ClCompile Include="robot_base.cpp" />
     <ClCompile Include="robot_behavior.h" />
     <ClCompile Include="robot_behvaior.cpp" />
+    <ClCompile Include="UtilityAI\UtilityCondition.cpp" />
+    <ClCompile Include="UtilityAI\UtilityTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def">
@@ -195,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="robot.h" />
+    <ClInclude Include="UtilityAI\UtilityCondition.h" />
+    <ClInclude Include="UtilityAI\UtilityTask.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

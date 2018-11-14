@@ -9,6 +9,8 @@ enum eRobotState
 	eReverse,
 	eAccel,
 	eDeaccel,
+	eLowFuel,
+	eDamage,
 	eStop
 };
 
@@ -24,6 +26,6 @@ public:
 	eRobotState getCurrentState() const;
 
 private:
-	eRobotState currentState;
 	robot* m_owner;
+	eRobotState currentState;
 };

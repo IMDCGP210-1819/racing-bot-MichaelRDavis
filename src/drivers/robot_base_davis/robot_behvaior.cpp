@@ -22,7 +22,6 @@ void robotFSM::update()
 			if (currentState == eRobotState::eForward)
 			{
 				m_owner->driveRobotForward();
-
 			}
 		}	
 		if (m_owner->isStuck())
