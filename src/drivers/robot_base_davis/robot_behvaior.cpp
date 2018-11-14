@@ -21,15 +21,24 @@ void robotFSM::update()
 			setState(eRobotState::eForward);
 			if (currentState == eRobotState::eForward)
 			{
-				m_owner->driveRobotForward();
+				m_owner->driveRobot();
 			}
-		}	
-		if (m_owner->isStuck())
+		}
+		else if (m_owner->canAccel())
+		{
+			setState(eRobotState::eAccel);
+			if (currentState == eAccel)
+			{
+				m_owner->driveRobot();
+				m_owner->accelRobot();
+			}
+		}
+		else if (m_owner->isStuck())
 		{
 			setState(eRobotState::eReverse);
 			if (currentState == eRobotState::eReverse)
 			{
-				m_owner->driveRobotBackward();
+				m_owner->reverseRobot();
 			}
 		}
 	}

@@ -22,7 +22,7 @@ void robot::run()
 	}
 }
 
-void robot::driveRobotForward()
+void robot::driveRobot()
 {
 	angle = RtTrackSideTgAngleL(&(m_car->_trkPos)) - m_car->_yaw;
 	NORM_PI_PI(angle);
@@ -34,7 +34,7 @@ void robot::driveRobotForward()
 	m_car->ctrl.accelCmd = 0.8f;
 }
 
-void robot::driveRobotBackward()
+void robot::reverseRobot()
 {
 	angle = -RtTrackSideTgAngleL(&(m_car->_trkPos)) - m_car->_yaw;
 	NORM_PI_PI(angle);
@@ -47,10 +47,21 @@ void robot::driveRobotBackward()
 
 void robot::accelRobot()
 {
-
+	float accelSpeed = getTrackSpeed(m_car->_trkPos.seg);
+	float gearRatio = m_car->_gearRatio[m_car->_gear + m_car->_gearOffset];
+	float revs = m_car->priv.enginerpmRedLine;
+	if (accelSpeed > m_car->pub.DynGCg.vel.x + 1.0f)
+	{
+		m_car->ctrl.accelCmd = 1.0f;
+	}
+	else
+	{
+		float result = accelSpeed / m_car->_wheelRadius(REAR_RGT) * gearRatio / revs;
+		m_car->ctrl.accelCmd = result;
+	}
 }
 
-void robot::deAccelRobot()
+void robot::brakeRobot()
 {
 
 }
@@ -82,12 +93,41 @@ bool robot::isStuck()
 
 bool robot::canDrive()
 {
-	if (isStuck())
+	if (isStuck() || canAccel())
 		return false;
 	return true;
 }
 
-float robot::getSpeed(trackSeg* segment)
+bool robot::canAccel()
 {
-	return 0.0f;
+	if (m_car->priv.enginerpmRedLine > 0.9f)
+		return true;
+
+	return false;
+}
+
+float robot::getTrackSpeed(trackSeg* segment)
+{
+	if (segment->type == TR_STR)
+	{
+		return FLT_MAX;
+	}
+	else
+	{
+		float friction = segment->surface->kFriction;
+		float speed = sqrt(friction * m_gravityScale * segment->radius);
+		return speed;
+	}
+}
+
+float robot::getSegmentEndDistance()
+{
+	if (m_car->_trkPos.seg->type == TR_STR)
+	{
+		return m_car->_trkPos.seg->length - m_car->_trkPos.toStart;
+	}
+	else
+	{
+		return 0.0f;
+	}
 }
