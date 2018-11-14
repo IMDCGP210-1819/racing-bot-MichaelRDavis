@@ -17,9 +17,17 @@ public:
 
 	void run();
 
-	void driveRobot();
+	void driveRobotForward();
+	void driveRobotBackward();
+	void accelRobot();
+	void deAccelRobot();
+
+	void avoidance();
+
 	bool isStuck();
 	bool canDrive();
+
+	float getSpeed(trackSeg* segment);
 
 private:
 	robotFSM* robotAI;
@@ -28,4 +36,5 @@ private:
 	tSituation* m_situation;
 	float angle;
 	const float SC = 1.0f;
+	int m_stuckCount;
 };

@@ -17,7 +17,22 @@ void robotFSM::update()
 	if (m_owner != nullptr)
 	{
 		if (m_owner->canDrive())
+		{
 			setState(eRobotState::eForward);
+			if (currentState == eRobotState::eForward)
+			{
+				m_owner->driveRobotForward();
+
+			}
+		}	
+		if (m_owner->isStuck())
+		{
+			setState(eRobotState::eReverse);
+			if (currentState == eRobotState::eReverse)
+			{
+				m_owner->driveRobotBackward();
+			}
+		}
 	}
 }
 
