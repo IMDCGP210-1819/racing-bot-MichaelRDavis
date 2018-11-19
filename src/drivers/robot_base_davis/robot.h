@@ -9,25 +9,44 @@
 
 class robotFSM;
 
-/* Robot handles driving commands for the car */
+/* Robot handles driving commands for the car. */
 class robot
 {
 public:
-	/* Robot constructor */
+	/* Robot constructor. */
 	robot(int index, tCarElt* car, tSituation *s);
+
+	/** Robot destructor. */
 	~robot();
 
+	/** Log to console. */
+	void logRobot();
+
+	/** Update the robot behavior, called once per frame. */
 	void run();
 
+	/** Drive robot car forward */
 	void driveRobot();
+
+	/** Drive robot cat backward */
 	void reverseRobot();
+
+	/** Accelerate robot car */
 	void accelRobot();
+
+	/** De-Accelerate robot car */
+	void deAccelRobot();
+
+	/** Change robot car gear */
+	int shiftGear();
+
+	/** Apply the robot cars brakes */
 	void brakeRobot();
 
 	/** Avoid any other robot cars. */
 	void avoidance();
 
-	/** Retunrs true if robot car is stuck upon a surface. */
+	/** Returns true if robot car is stuck upon a surface. */
 	bool isStuck();
 
 	/** Returns true if robot car can drive. */
@@ -35,6 +54,18 @@ public:
 
 	/** Returns true if robot can accelerate. */
 	bool canAccel();
+
+	/** Returns true if can shift gear. */
+	bool canShiftGear();
+
+	/** Returns true if robot car can brake. */
+	bool canBrake();
+
+	/** Returns true if car is low on fuel */
+	bool lowFuel();
+
+	/** Returns true if car need repairing */
+	bool repair();
 
 	/** Returns the speed of a track segment. */
 	float getTrackSpeed(trackSeg* segment);
@@ -44,7 +75,7 @@ public:
 
 private:
 	/** Robot car AI behavior. */
-	robotFSM* robotAI;
+	robotFSM* m_robotAI;
 
 	/** Robot car. */
 	tCarElt* m_car;
@@ -53,16 +84,19 @@ private:
 	tSituation* m_situation;
 
 	/** Robot car steering control. */
-	const float SC = 1.0f;
+	const float m_SteeringControl = 1.0f;
 
 	/** Robot car angle to track. */
-	float angle;
+	float m_angle;
 
 	/** Robot car index. */
 	int m_index;
 
 	/** Robot car stuck count */
 	int m_stuckCount;
+
+	/* Robot cars current gear */
+	int m_currentGear;
 
 	/** Robot car gravity scale. */
 	const float m_gravityScale = 9.807f;

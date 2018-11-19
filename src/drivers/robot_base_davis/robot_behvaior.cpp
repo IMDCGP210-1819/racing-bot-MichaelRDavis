@@ -4,7 +4,7 @@
 robotFSM::robotFSM(robot* owner)
 	: m_owner(owner)
 {
-	currentState = eRobotState::eStart;
+	m_currentState = eRobotState::eStart;
 }
 
 robotFSM::~robotFSM()
@@ -19,24 +19,24 @@ void robotFSM::update()
 		if (m_owner->canDrive())
 		{
 			setState(eRobotState::eForward);
-			if (currentState == eRobotState::eForward)
+			if (m_currentState == eRobotState::eForward)
 			{
 				m_owner->driveRobot();
 			}
 		}
-		else if (m_owner->canAccel())
+		if (m_owner->canAccel())
 		{
 			setState(eRobotState::eAccel);
-			if (currentState == eAccel)
+			if (m_currentState == eAccel)
 			{
 				m_owner->driveRobot();
 				m_owner->accelRobot();
 			}
 		}
-		else if (m_owner->isStuck())
+		if (m_owner->isStuck())
 		{
 			setState(eRobotState::eReverse);
-			if (currentState == eRobotState::eReverse)
+			if (m_currentState == eRobotState::eReverse)
 			{
 				m_owner->reverseRobot();
 			}
@@ -46,10 +46,10 @@ void robotFSM::update()
 
 void robotFSM::setState(eRobotState newState)
 {
-	currentState = newState;
+	m_currentState = newState;
 }
 
 eRobotState robotFSM::getCurrentState() const
 {
-	return currentState;
+	return m_currentState;
 }

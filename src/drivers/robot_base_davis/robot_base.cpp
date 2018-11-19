@@ -99,6 +99,7 @@ drive(int index, tCarElt* car, tSituation *s)
 
 	robot myRobot(index, car, s);
 	myRobot.run();
+	myRobot.logRobot();
 }
 
 /* End of the current race */
