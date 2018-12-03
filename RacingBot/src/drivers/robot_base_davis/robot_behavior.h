@@ -1,6 +1,6 @@
 #pragma once
 
-class robot;
+class Robot;
 
 /** Robot states */
 enum eRobotState
@@ -20,7 +20,7 @@ class robotFSM
 {
 public:
 	/** RobotFSM constructor. */
-	robotFSM(robot* owner);
+	robotFSM(Robot* owner);
 
 	/** RobotFSM destructor. */
 	~robotFSM();
@@ -36,7 +36,7 @@ public:
 
 private:
 	/** Owner of the state machine. */
-	robot* m_owner;
+	Robot* m_owner;
 
 	/** Current state of the state machine. */
 	eRobotState m_currentState;

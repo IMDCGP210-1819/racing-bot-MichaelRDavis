@@ -10,17 +10,14 @@
 class robotFSM;
 
 /* Robot handles driving commands for the car. */
-class robot
+class Robot
 {
 public:
 	/* Robot constructor. */
-	robot(int index, tCarElt* car, tSituation *s);
+	Robot(int index, tCarElt* car, tSituation *s);
 
 	/** Robot destructor. */
-	~robot();
-
-	/** Log to console. */
-	void logRobot();
+	~Robot();
 
 	/** Update the robot behavior, called once per frame. */
 	void run();
@@ -100,4 +97,7 @@ private:
 
 	/** Robot car gravity scale. */
 	const float m_gravityScale = 9.807f;
+
+	const float m_GearShift = 0.9f;
+	const float m_GearShiftMargin = 4.0f;
 };

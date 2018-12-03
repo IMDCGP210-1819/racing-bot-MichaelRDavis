@@ -42,6 +42,9 @@ static void endrace(int index, tCarElt *car, tSituation *s);
 static void shutdown(int index);
 static int  InitFuncPt(int index, void *pt); 
 
+#define BUFFER_SIZE 20
+#define NUM_ROBOTS 2
+static char* robotNames[NUM_ROBOTS];
 
 /* 
  * Module entry point  
@@ -93,13 +96,12 @@ newrace(int index, tCarElt* car, tSituation *s)
 
 /* Drive during race. */
 static void  
-drive(int index, tCarElt* car, tSituation *s) 
-{ 
-    memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
+drive(int index, tCarElt* car, tSituation *s)
+{
+	memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
 
-	robot myRobot(index, car, s);
+	Robot myRobot(index, car, s);
 	myRobot.run();
-	myRobot.logRobot();
 }
 
 /* End of the current race */

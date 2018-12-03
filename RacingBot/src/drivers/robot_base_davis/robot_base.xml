@@ -14,7 +14,7 @@
 <params name="robot_base" type="robotdef">
   <section name="Robots">
     <section name="index">
-      <section name="1">
+      <section name="0">
 	<attstr name="name" val="robot_base"></attstr>
 	<attstr name="desc" val=""></attstr>
 	<attstr name="team" val=""></attstr>
@@ -25,6 +25,18 @@
 	<attnum name="red" val="1.0"></attnum>
 	<attnum name="green" val="1.0"></attnum>
 	<attnum name="blue" val="1.0"></attnum>
+      </section>
+      <section name="1">
+  <attstr name="name" val="robot_base_2"></attstr>
+  <attstr name="desc" val=""></attstr>
+  <attstr name="team" val=""></attstr>
+  <attstr name="author" val=""></attstr>
+  <attstr name="car name" val="xj_220"></attstr>
+  <attstr name="category" val="stock1"></attstr>
+  <attnum name="race number" val="0"></attnum>
+  <attnum name="red" val="1.0"></attnum>
+  <attnum name="green" val="1.0"></attnum>
+  <attnum name="blue" val="1.0"></attnum>
       </section>
     </section>
   </section>

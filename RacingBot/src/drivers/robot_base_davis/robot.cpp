@@ -1,25 +1,21 @@
 #include "../robot_base_davis/robot.h"
 #include "../robot_base_davis/robot_behavior.h"
 
-robot::robot(int index, tCarElt* car, tSituation *s)
+Robot::Robot(int index, tCarElt* car, tSituation *s)
 	: m_index(index)
 	, m_car(car)
 	, m_situation(m_situation)
 {
 	m_robotAI = new robotFSM(this);
+	m_stuckCount = 0;
 }
 
-robot::~robot()
+Robot::~Robot()
 {
 	delete m_robotAI;
 }
 
-void robot::logRobot()
-{
-	printf("Robot State: %d\n", m_robotAI->getCurrentState());
-}
-
-void robot::run()
+void Robot::run()
 {
 	if (m_robotAI != nullptr)
 	{
@@ -27,7 +23,7 @@ void robot::run()
 	}
 }
 
-void robot::driveRobot()
+void Robot::driveRobot()
 {
 	m_angle = RtTrackSideTgAngleL(&(m_car->_trkPos)) - m_car->_yaw;
 	NORM_PI_PI(m_angle);
@@ -39,7 +35,7 @@ void robot::driveRobot()
 	m_car->ctrl.accelCmd = 0.3f;
 }
 
-void robot::reverseRobot()
+void Robot::reverseRobot()
 {
 	m_angle = -RtTrackSideTgAngleL(&(m_car->_trkPos)) - m_car->_yaw;
 	NORM_PI_PI(m_angle);
@@ -50,7 +46,7 @@ void robot::reverseRobot()
 	m_car->ctrl.accelCmd = 0.3f;
 }
 
-void robot::accelRobot()
+void Robot::accelRobot()
 {
 	float accelSpeed = getTrackSpeed(m_car->_trkPos.seg);
 	float gearRatio = m_car->_gearRatio[m_car->_gear + m_car->_gearOffset];
@@ -66,27 +62,49 @@ void robot::accelRobot()
 	}
 }
 
-void robot::deAccelRobot()
+void Robot::deAccelRobot()
 {
 
 }
 
-int robot::shiftGear()
+int Robot::shiftGear()
 {
-	return 0;
+	if (m_car->ctrl.gear <= 0)
+	{
+		return 1;
+	}
+
+	float gearUp = m_car->priv.gearRatio[m_car->ctrl.gear + m_car->priv.gearOffset];
+	float gearConstraint = m_car->priv.enginerpmRedLine / gearUp;
+	float wheelRadius = m_car->_wheelRadius(2);
+	if (gearConstraint * wheelRadius * m_GearShift < m_car->_speed_x)
+	{
+		return m_car->_gear + 1;
+	}
+	else
+	{
+		float gearDown = m_car->priv.gearRatio[m_car->priv.gear + m_car->priv.gearOffset - 1];
+		gearConstraint = m_car->priv.enginerpmRedLine / gearDown;
+		if (m_car->priv.gear > 1 && gearConstraint * wheelRadius * m_GearShift > m_car->_speed_x + m_GearShiftMargin)
+		{
+			return m_car->_gear - 1;
+		}
+
+		return m_car->_gear;
+	}
 }
 
-void robot::brakeRobot()
+void Robot::brakeRobot()
 {
 
 }
 
-void robot::avoidance()
+void Robot::avoidance()
 {
 
 }
 
-bool robot::isStuck()
+bool Robot::isStuck()
 {
 	m_angle = RtTrackSideTgAngleL(&(m_car->_trkPos)) - m_car->_yaw;
 	NORM_PI_PI(m_angle);
@@ -106,42 +124,51 @@ bool robot::isStuck()
 	}
 }
 
-bool robot::canDrive()
+bool Robot::canDrive()
 {
-	if (isStuck() || canAccel())
+	if (isStuck())
+	{
 		return false;
+	}
+
+	if (canAccel())
+	{
+		return false;
+	}
+
 	return true;
 }
 
-bool robot::canAccel()
+bool Robot::canAccel()
 {
 	if (m_car->priv.enginerpmRedLine)
 		return true;
-
 	return false;
 }
 
-bool robot::canShiftGear()
+bool Robot::canShiftGear()
+{
+	if (canAccel())
+		return true;
+	return false;
+}
+
+bool Robot::canBrake()
 {
 	return true;
 }
 
-bool robot::canBrake()
+bool Robot::lowFuel()
 {
 	return true;
 }
 
-bool robot::lowFuel()
+bool Robot::repair()
 {
 	return true;
 }
 
-bool robot::repair()
-{
-	return true;
-}
-
-float robot::getTrackSpeed(trackSeg* segment)
+float Robot::getTrackSpeed(trackSeg* segment)
 {
 	if (segment->type == TR_STR)
 	{
@@ -155,7 +182,7 @@ float robot::getTrackSpeed(trackSeg* segment)
 	}
 }
 
-float robot::getSegmentEndDistance()
+float Robot::getSegmentEndDistance()
 {
 	if (m_car->_trkPos.seg->type == TR_STR)
 	{

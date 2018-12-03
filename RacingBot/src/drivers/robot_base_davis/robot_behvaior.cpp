@@ -1,7 +1,7 @@
 #include "../robot_base_davis/robot_behavior.h"
 #include "../robot_base_davis/robot.h"
 
-robotFSM::robotFSM(robot* owner)
+robotFSM::robotFSM(Robot* owner)
 	: m_owner(owner)
 {
 	m_currentState = eRobotState::eStart;

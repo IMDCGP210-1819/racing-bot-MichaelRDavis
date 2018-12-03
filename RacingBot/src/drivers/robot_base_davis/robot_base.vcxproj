@@ -194,6 +194,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviorTree\BehaviorTree.h" />
+    <ClInclude Include="BehaviorTree\BTNode.h" />
+    <ClInclude Include="BehaviorTree\BTTaskNode.h" />
     <ClInclude Include="robot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
