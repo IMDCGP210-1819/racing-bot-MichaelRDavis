@@ -1,18 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
-    <ClCompile Include="robot_behavior.h" />
-    <ClCompile Include="robot_behvaior.cpp" />
+    <ClCompile Include="Robot.cpp">
+      <Filter>Robots</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="robot.h" />
-    <ClInclude Include="BehaviorTree\BehaviorTree.h" />
-    <ClInclude Include="BehaviorTree\BTNode.h" />
-    <ClInclude Include="BehaviorTree\BTTaskNode.h" />
+    <ClInclude Include="BehaviorTree\BehaviorTree.h">
+      <Filter>AIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\BTTaskNode.h">
+      <Filter>AIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\BTNode.h">
+      <Filter>AIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Robot.h">
+      <Filter>Robots</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\BTCompositeNode.h">
+      <Filter>AIFramework\Composites</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\BTDecoratorNode.h">
+      <Filter>AIFramework\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="Blackboard.h">
+      <Filter>AIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveTask.h">
+      <Filter>RobotAI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Robots">
+      <UniqueIdentifier>{596ed847-1e1a-4b98-a050-97a6ece75034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RobotAI">
+      <UniqueIdentifier>{80491690-8a85-4557-82f0-44f4eab2f1fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AIFramework">
+      <UniqueIdentifier>{cb3515f2-5563-4282-b701-8d8982801216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AIFramework\Composites">
+      <UniqueIdentifier>{c3442f76-8efa-4819-b78c-ce794a3e2497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AIFramework\Decorators">
+      <UniqueIdentifier>{5222d344-c116-4db6-ab39-7106c5db61fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

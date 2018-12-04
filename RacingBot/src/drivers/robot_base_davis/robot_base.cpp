@@ -31,7 +31,7 @@
 #include <robottools.h>
 #include <robot.h>
 
-#include "../robot_base_davis/robot.h"
+#include "../robot_base_davis/Robot.h"
 
 static tTrack	*curTrack;
 
@@ -53,6 +53,9 @@ extern "C" int
 robot_base_davis(tModInfo *modInfo) 
 {
     memset(modInfo, 0, 10*sizeof(tModInfo));
+
+	char buffer[BUFFER_SIZE];
+	int index;
 
     modInfo->name    = strdup("robot_base_davis");		/* name of the module (short) */
     modInfo->desc    = strdup("");	/* description of the module (can be long) */
@@ -100,8 +103,9 @@ drive(int index, tCarElt* car, tSituation *s)
 {
 	memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
 
-	Robot myRobot(index, car, s);
-	myRobot.run();
+	Robot robot;
+	robot.Initialize(car);
+	robot.Update();
 }
 
 /* End of the current race */

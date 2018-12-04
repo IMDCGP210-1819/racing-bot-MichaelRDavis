@@ -173,10 +173,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="robot.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
-    <ClCompile Include="robot_behavior.h" />
-    <ClCompile Include="robot_behvaior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def">
@@ -195,9 +193,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h" />
+    <ClInclude Include="BehaviorTree\BTCompositeNode.h" />
+    <ClInclude Include="BehaviorTree\BTDecoratorNode.h" />
     <ClInclude Include="BehaviorTree\BTNode.h" />
     <ClInclude Include="BehaviorTree\BTTaskNode.h" />
-    <ClInclude Include="robot.h" />
+    <ClInclude Include="Blackboard.h" />
+    <ClInclude Include="DriveTask.h" />
+    <ClInclude Include="Robot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

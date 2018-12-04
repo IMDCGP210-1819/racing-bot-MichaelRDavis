@@ -1,8 +1,15 @@
 #pragma once
 
-#include <cstdint>
-
 class BTNode
 {
+public:
+	BTNode()
+	{
 
+	}
+
+	virtual ~BTNode()
+	{
+
+	}
 };

@@ -7,97 +7,41 @@
 #include <robottools.h>
 #include <robot.h>
 
-class robotFSM;
+#include <memory>
 
-/* Robot handles driving commands for the car. */
+class BehaviorTree;
+
+/**
+ * This class is responsible for handling the cars driving behavior.
+ */
 class Robot
 {
 public:
-	/* Robot constructor. */
-	Robot(int index, tCarElt* car, tSituation *s);
+	/** Default Robot constructor. */
+	Robot();
 
-	/** Robot destructor. */
-	~Robot();
+	/** Default Robot destructor. */
+	virtual ~Robot();
 
-	/** Update the robot behavior, called once per frame. */
-	void run();
+	/** Create BehviorTree. */
+	void CreateBehaviorTree();
+	
+	/** Initialize robot car. */
+	void Initialize(tCarElt* Car);
 
-	/** Drive robot car forward */
-	void driveRobot();
+	/** Update robot car, ideally called once per frame. */
+	void Update();
 
-	/** Drive robot cat backward */
-	void reverseRobot();
+	/** Drive robot car forward. */
+	void Drive();
 
-	/** Accelerate robot car */
-	void accelRobot();
+protected:
+	/** Robot BehaviorTree. */
+	std::unique_ptr<BehaviorTree> m_BehaviorTree;
 
-	/** De-Accelerate robot car */
-	void deAccelRobot();
+	/** Pointer to the car structure. */
+	tCarElt* m_Car;
 
-	/** Change robot car gear */
-	int shiftGear();
-
-	/** Apply the robot cars brakes */
-	void brakeRobot();
-
-	/** Avoid any other robot cars. */
-	void avoidance();
-
-	/** Returns true if robot car is stuck upon a surface. */
-	bool isStuck();
-
-	/** Returns true if robot car can drive. */
-	bool canDrive();
-
-	/** Returns true if robot can accelerate. */
-	bool canAccel();
-
-	/** Returns true if can shift gear. */
-	bool canShiftGear();
-
-	/** Returns true if robot car can brake. */
-	bool canBrake();
-
-	/** Returns true if car is low on fuel */
-	bool lowFuel();
-
-	/** Returns true if car need repairing */
-	bool repair();
-
-	/** Returns the speed of a track segment. */
-	float getTrackSpeed(trackSeg* segment);
-
-	/** Retunrs the distance to the end the current track segment. */
-	float getSegmentEndDistance();
-
-private:
-	/** Robot car AI behavior. */
-	robotFSM* m_robotAI;
-
-	/** Robot car. */
-	tCarElt* m_car;
-
-	/** Robot situation. */
-	tSituation* m_situation;
-
-	/** Robot car steering control. */
-	const float m_SteeringControl = 1.0f;
-
-	/** Robot car angle to track. */
-	float m_angle;
-
-	/** Robot car index. */
-	int m_index;
-
-	/** Robot car stuck count */
-	int m_stuckCount;
-
-	/* Robot cars current gear */
-	int m_currentGear;
-
-	/** Robot car gravity scale. */
-	const float m_gravityScale = 9.807f;
-
-	const float m_GearShift = 0.9f;
-	const float m_GearShiftMargin = 4.0f;
+	float m_AngleToTrack;
+	const float STEERING_CONTROL = 1.0f;
 };
