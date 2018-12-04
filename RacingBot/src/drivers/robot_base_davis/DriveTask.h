@@ -8,14 +8,25 @@ class Robot;
 class DriveTask : public BTTaskNode
 {
 public:
+	DriveTask(Robot* robot)
+	{
+		m_Robot = robot;
+	}
+
 	void OnInitialize() override
 	{
-
+		
 	}
 
 	EStatus OnUpdate() override
 	{
-		m_Robot->Drive();
+		if (m_Robot)
+		{
+			m_Robot->Drive();
+			return EStatus::ESuccess;
+		}
+
+		return EStatus::EInvalid;
 	}
 
 	void OnTerminate(EStatus status) override

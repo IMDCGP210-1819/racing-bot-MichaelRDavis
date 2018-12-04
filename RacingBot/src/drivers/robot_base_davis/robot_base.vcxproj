@@ -198,6 +198,7 @@
     <ClInclude Include="BehaviorTree\BTNode.h" />
     <ClInclude Include="BehaviorTree\BTTaskNode.h" />
     <ClInclude Include="Blackboard.h" />
+    <ClInclude Include="BTCompositeSelector.h" />
     <ClInclude Include="DriveTask.h" />
     <ClInclude Include="Robot.h" />
   </ItemGroup>

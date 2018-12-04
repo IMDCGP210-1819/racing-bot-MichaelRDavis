@@ -105,6 +105,7 @@ drive(int index, tCarElt* car, tSituation *s)
 
 	Robot robot;
 	robot.Initialize(car);
+	robot.CreateBehaviorTree();
 	robot.Update();
 }
 

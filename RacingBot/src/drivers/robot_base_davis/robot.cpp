@@ -1,5 +1,7 @@
 #include "../robot_base_davis/Robot.h"
 #include "../robot_base_davis/BehaviorTree/BehaviorTree.h"
+#include "../robot_base_davis/BTCompositeSelector.h"
+#include "../robot_base_davis/DriveTask.h"
 
 Robot::Robot()
 {
@@ -13,7 +15,9 @@ Robot::~Robot()
 
 void Robot::CreateBehaviorTree()
 {
-	
+	auto sequence = std::make_shared<BTCompositeSelector>();
+	sequence->InsertChildNode(std::make_shared<DriveTask>(this));
+	m_BehaviorTree->SetRootNode(sequence);
 }
 
 void Robot::Initialize(tCarElt* Car)

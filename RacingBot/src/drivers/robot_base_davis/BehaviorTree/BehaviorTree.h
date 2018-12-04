@@ -23,7 +23,7 @@ public:
 	}
 
 	/** Update BehaviorTree tasks. */
-	EStatus Update()
+	void Update()
 	{
 		m_RootNode->Tick();
 	}

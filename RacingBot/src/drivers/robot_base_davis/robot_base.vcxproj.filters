@@ -31,6 +31,9 @@
     <ClInclude Include="DriveTask.h">
       <Filter>RobotAI</Filter>
     </ClInclude>
+    <ClInclude Include="BTCompositeSelector.h">
+      <Filter>AIFramework\Composites</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />
