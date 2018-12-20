@@ -173,7 +173,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="Robots\Robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,14 +193,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h" />
-    <ClInclude Include="BehaviorTree\BTCompositeNode.h" />
-    <ClInclude Include="BehaviorTree\BTDecoratorNode.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTCompositeNode.h" />
+    <ClInclude Include="BehaviorTree\Decorators\BTDecoratorNode.h" />
     <ClInclude Include="BehaviorTree\BTNode.h" />
     <ClInclude Include="BehaviorTree\BTTaskNode.h" />
-    <ClInclude Include="Blackboard.h" />
-    <ClInclude Include="BTCompositeSelector.h" />
-    <ClInclude Include="DriveTask.h" />
-    <ClInclude Include="Robot.h" />
+    <ClInclude Include="BehaviorTree\Blackboard.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTCompositeSelector.h" />
+    <ClInclude Include="RobotAI\RobotTasks.h" />
+    <ClInclude Include="Robots\Robot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,7 +31,7 @@
 #include <robottools.h>
 #include <robot.h>
 
-#include "../robot_base_davis/Robot.h"
+#include "../robot_base_davis/Robots/Robot.h"
 
 static tTrack	*curTrack;
 
