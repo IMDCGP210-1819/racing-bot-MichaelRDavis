@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../BehaviorTree/BTTaskNode.h"
+#include "../BTTaskNode.h"
 #include <memory>
 
 class BTDecoratorNode : public BTTaskNode

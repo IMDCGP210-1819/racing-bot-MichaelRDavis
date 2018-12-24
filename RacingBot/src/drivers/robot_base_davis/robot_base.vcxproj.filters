@@ -5,6 +5,27 @@
     <ClCompile Include="Robots\Robot.cpp">
       <Filter>Robots</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviorTree\BehaviorTree.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\Blackboard.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\BTNode.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\BTTaskNode.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\Composites\BTCompositeNode.cpp">
+      <Filter>BehaviorTree\Composites</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\Composites\BTCompositeSelector.cpp">
+      <Filter>BehaviorTree\Composites</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\Decorators\BTDecoratorNode.cpp">
+      <Filter>BehaviorTree\Decorators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">

@@ -10,29 +10,16 @@ class BehaviorTree
 {
 public:
 	/** Default BehaviorTree constructor. */
-	BehaviorTree()
-		: m_Blackboard(nullptr)
-	{
-
-	}
+	BehaviorTree();
 
 	/** Default BehaviorTree destructor. */
-	~BehaviorTree()
-	{
-
-	}
+	~BehaviorTree();
 
 	/** Update BehaviorTree tasks. */
-	void Update()
-	{
-		m_RootNode->Tick();
-	}
+	void Update();
 
 	/** Set the RootNode of the BehaviorTree. */
-	void SetRootNode(const std::shared_ptr<BTTaskNode>& NewNode)
-	{
-		m_RootNode = NewNode;
-	}
+	void SetRootNode(const std::shared_ptr<BTTaskNode>& NewNode);
 
 	/** Returns the Blackboard object. */
 	inline std::shared_ptr<Blackboard> GetBlackbaord() const

@@ -3,13 +3,6 @@
 class BTNode
 {
 public:
-	BTNode()
-	{
-
-	}
-
-	virtual ~BTNode()
-	{
-
-	}
+	BTNode();
+	virtual ~BTNode();
 };

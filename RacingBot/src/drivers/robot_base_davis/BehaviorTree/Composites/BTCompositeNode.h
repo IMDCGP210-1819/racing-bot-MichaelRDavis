@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "../BehaviorTree/BTTaskNode.h"
+#include "../BTTaskNode.h"
 
 class BTCompositeNode : public BTTaskNode
 {

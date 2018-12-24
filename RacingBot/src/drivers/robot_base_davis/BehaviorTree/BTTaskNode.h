@@ -19,34 +19,13 @@ class BTTaskNode : public BTNode
 {
 public:
 	/** Default BTTaskNode constructor. */
-	BTTaskNode()
-	{
-		m_Status = EStatus::EInvalid;
-	}
+	BTTaskNode();
 
 	/** Default BTtaskNode destructor. */
-	~BTTaskNode()
-	{
-
-	}
+	~BTTaskNode();
 
 	/** Update the current task, ideally called once per frame. */
-	EStatus Tick()
-	{
-		if (m_Status != EStatus::ERunning)
-		{
-			OnInitialize();
-		}
-
-		m_Status = OnUpdate();
-
-		if (m_Status != EStatus::ERunning)
-		{
-			OnTerminate(m_Status);
-		}
-
-		return m_Status;
-	}
+	EStatus Tick();
 
 	/** Update the current task */
 	virtual EStatus OnUpdate() = 0;

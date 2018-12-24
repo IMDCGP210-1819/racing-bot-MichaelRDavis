@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../BehaviorTree/Composites/BTCompositeNode.h"
+#include "../Composites/BTCompositeNode.h"
 
 /**
  * 

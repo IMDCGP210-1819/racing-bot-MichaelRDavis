@@ -173,6 +173,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BehaviorTree\Blackboard.cpp" />
+    <ClCompile Include="BehaviorTree\BTNode.cpp" />
+    <ClCompile Include="BehaviorTree\BTTaskNode.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTCompositeNode.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTCompositeSelector.cpp" />
+    <ClCompile Include="BehaviorTree\BehaviorTree.cpp" />
+    <ClCompile Include="BehaviorTree\Decorators\BTDecoratorNode.cpp" />
     <ClCompile Include="Robots\Robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
   </ItemGroup>
