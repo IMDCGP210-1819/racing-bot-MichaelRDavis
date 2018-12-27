@@ -8,31 +8,26 @@
     <ClCompile Include="BehaviorTree\BehaviorTree.cpp">
       <Filter>BehaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\Blackboard.cpp">
-      <Filter>BehaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviorTree\BTNode.cpp">
       <Filter>BehaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\BTTaskNode.cpp">
-      <Filter>BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviorTree\Composites\BTCompositeNode.cpp">
+    <ClCompile Include="BehaviorTree\Composites\BTSequence.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTSelector.cpp">
       <Filter>BehaviorTree\Composites</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\Composites\BTCompositeSelector.cpp">
+    <ClCompile Include="BehaviorTree\Composites\BTComposite.cpp">
       <Filter>BehaviorTree\Composites</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\Decorators\BTDecoratorNode.cpp">
+    <ClCompile Include="BehaviorTree\Decorators\BTDecorator.cpp">
       <Filter>BehaviorTree\Decorators</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\Decorators\BTRepeatDecorator.cpp" />
+    <ClCompile Include="BehaviorTree\Decorators\BTRepeat.cpp" />
+    <ClCompile Include="BehaviorTree\BTTask.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">
-      <Filter>BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorTree\BTTaskNode.h">
       <Filter>BehaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorTree\BTNode.h">
@@ -47,16 +42,20 @@
     <ClInclude Include="RobotAI\RobotTasks.h">
       <Filter>RobotAI</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorTree\Decorators\BTDecoratorNode.h">
+    <ClInclude Include="BehaviorTree\Composites\BTSequence.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTSelector.h">
+      <Filter>BehaviorTree\Composites</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\Decorators\BTDecorator.h">
       <Filter>BehaviorTree\Decorators</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorTree\Composites\BTCompositeNode.h">
+    <ClInclude Include="BehaviorTree\Decorators\BTRepeat.h" />
+    <ClInclude Include="BehaviorTree\BTTask.h">
+      <Filter>BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\Composites\BTComposite.h">
       <Filter>BehaviorTree\Composites</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorTree\Composites\BTCompositeSelector.h">
-      <Filter>BehaviorTree\Composites</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorTree\Decorators\BTRepeatDecorator.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />

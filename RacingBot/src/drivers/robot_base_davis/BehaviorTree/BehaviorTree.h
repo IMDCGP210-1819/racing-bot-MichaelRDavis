@@ -1,10 +1,10 @@
 #pragma once
 
 #include <memory>
-#include "../BehaviorTree/BTTaskNode.h"
+#include "../BehaviorTree/BTTask.h"
 
 class Blackboard;
-class BTTaskNode;
+class BTTask;
 
 /**
  * 
@@ -22,7 +22,7 @@ public:
 	void Update();
 
 	/** Set the RootNode of the BehaviorTree. */
-	void SetRootNode(const std::shared_ptr<BTTaskNode>& NewNode);
+	void SetRootNode(const std::shared_ptr<BTTask>& NewNode);
 
 	/** Returns the Blackboard object. */
 	inline std::shared_ptr<Blackboard> GetBlackbaord() const
@@ -32,7 +32,7 @@ public:
 
 protected:
 	/** RootNode of the behavior tree. */
-	std::shared_ptr<BTTaskNode> m_RootNode;
+	std::shared_ptr<BTTask> m_RootNode;
 
 	/** Blackboard associated with this BehaviorTree. */
 	std::shared_ptr<Blackboard> m_Blackboard;

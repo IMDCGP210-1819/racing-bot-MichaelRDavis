@@ -1,6 +1,6 @@
 #include "Robot.h"
 #include "../BehaviorTree/BehaviorTree.h"
-#include "../BehaviorTree/Composites/BTCompositeSelector.h"
+#include "../BehaviorTree/Composites/BTSelector.h"
 #include "../RobotAI/RobotTasks.h"
 
 int Robot::m_StuckCount = 0;
@@ -17,7 +17,7 @@ Robot::~Robot()
 
 void Robot::CreateBehaviorTree()
 {
-	auto sequence = std::make_shared<BTCompositeSelector>();
+	auto sequence = std::make_shared<BTSelector>();
 	sequence->InsertChildNode(std::make_shared<DriveTask>(this));
 	m_BehaviorTree->SetRootNode(sequence);
 }

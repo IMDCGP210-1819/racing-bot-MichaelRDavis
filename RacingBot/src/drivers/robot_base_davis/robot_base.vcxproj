@@ -173,14 +173,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BehaviorTree\Blackboard.cpp" />
     <ClCompile Include="BehaviorTree\BTNode.cpp" />
-    <ClCompile Include="BehaviorTree\BTTaskNode.cpp" />
-    <ClCompile Include="BehaviorTree\Composites\BTCompositeNode.cpp" />
-    <ClCompile Include="BehaviorTree\Composites\BTCompositeSelector.cpp" />
+    <ClCompile Include="BehaviorTree\BTTask.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTComposite.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTSelector.cpp" />
     <ClCompile Include="BehaviorTree\BehaviorTree.cpp" />
-    <ClCompile Include="BehaviorTree\Decorators\BTDecoratorNode.cpp" />
-    <ClCompile Include="BehaviorTree\Decorators\BTRepeatDecorator.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTSequence.cpp" />
+    <ClCompile Include="BehaviorTree\Decorators\BTDecorator.cpp" />
+    <ClCompile Include="BehaviorTree\Decorators\BTRepeat.cpp" />
     <ClCompile Include="Robots\Robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
   </ItemGroup>
@@ -201,13 +201,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h" />
-    <ClInclude Include="BehaviorTree\Composites\BTCompositeNode.h" />
-    <ClInclude Include="BehaviorTree\Decorators\BTDecoratorNode.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTComposite.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTSequence.h" />
+    <ClInclude Include="BehaviorTree\Decorators\BTDecorator.h" />
     <ClInclude Include="BehaviorTree\BTNode.h" />
-    <ClInclude Include="BehaviorTree\BTTaskNode.h" />
+    <ClInclude Include="BehaviorTree\BTTask.h" />
     <ClInclude Include="BehaviorTree\Blackboard.h" />
-    <ClInclude Include="BehaviorTree\Composites\BTCompositeSelector.h" />
-    <ClInclude Include="BehaviorTree\Decorators\BTRepeatDecorator.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTSelector.h" />
+    <ClInclude Include="BehaviorTree\Decorators\BTRepeat.h" />
     <ClInclude Include="RobotAI\RobotTasks.h" />
     <ClInclude Include="Robots\Robot.h" />
   </ItemGroup>

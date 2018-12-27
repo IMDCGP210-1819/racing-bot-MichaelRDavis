@@ -16,7 +16,7 @@ void BehaviorTree::Update()
 	m_RootNode->Tick();
 }
 
-void BehaviorTree::SetRootNode(const std::shared_ptr<BTTaskNode>& NewNode)
+void BehaviorTree::SetRootNode(const std::shared_ptr<BTTask>& NewNode)
 {
 	m_RootNode = NewNode;
 }

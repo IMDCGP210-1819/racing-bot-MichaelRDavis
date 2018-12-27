@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../BehaviorTree/BTTaskNode.h"
+#include "../BehaviorTree/BTTask.h"
 #include "../Robots/Robot.h"
 
 class Robot;
 
-class DriveTask : public BTTaskNode
+class DriveTask : public BTTask
 {
 public:
 	DriveTask(Robot* robot)
