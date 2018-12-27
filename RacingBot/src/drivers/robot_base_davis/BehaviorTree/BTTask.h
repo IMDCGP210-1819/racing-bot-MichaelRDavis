@@ -10,6 +10,7 @@ enum class EStatus : uint8_t
 	ESuccess,
 	EFailure,
 	ERunning,
+	EAborted,
 };
 
 /**
@@ -38,6 +39,9 @@ public:
 	*/
 	virtual void OnTerminate(EStatus status) = 0;
 
+	/** Abort currently running task. */
+	virtual void Abort();
+
 	/** Return true if the current task ran successfully. */
 	inline bool IsSuccess() const
 	{
@@ -57,7 +61,7 @@ public:
 	}
 
 	/** Return true if current task terminated. */
-	inline bool IsTarminated() const
+	inline bool IsTerminated() const
 	{
 		return IsSuccess() || IsFailure();
 	}

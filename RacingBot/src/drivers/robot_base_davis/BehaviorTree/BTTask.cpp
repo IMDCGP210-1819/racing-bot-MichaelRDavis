@@ -26,3 +26,9 @@ EStatus BTTask::Tick()
 
 	return m_Status;
 }
+
+void BTTask::Abort()
+{
+	OnTerminate(EStatus::EAborted);
+	m_Status = EStatus::EAborted;
+}

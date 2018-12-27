@@ -25,6 +25,7 @@
     <ClCompile Include="BehaviorTree\BTTask.cpp">
       <Filter>BehaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviorTree\Composites\BTParallel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">
@@ -56,6 +57,7 @@
     <ClInclude Include="BehaviorTree\Composites\BTComposite.h">
       <Filter>BehaviorTree\Composites</Filter>
     </ClInclude>
+    <ClInclude Include="BehaviorTree\Composites\BTParallel.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />
