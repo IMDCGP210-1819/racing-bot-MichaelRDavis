@@ -44,7 +44,7 @@ static int  InitFuncPt(int index, void *pt);
 
 #define BUFFER_SIZE 20
 #define NUM_ROBOTS 2
-static char* robotNames[NUM_ROBOTS];
+static char* robotNames[NUM_ROBOTS] = {"robot_davis", "robot_davis"};
 
 /* 
  * Module entry point  
@@ -56,6 +56,12 @@ robot_base_davis(tModInfo *modInfo)
 
 	char buffer[BUFFER_SIZE];
 	int index;
+
+	//for (int i = 0; i < NUM_ROBOTS; i++)
+	//{
+	//	sprintf(buffer, "Robot: %d", i + 1);
+	//	robotNames[i] = strdup(buffer);
+	//}
 
     modInfo->name    = strdup("robot_base_davis");		/* name of the module (short) */
     modInfo->desc    = strdup("");	/* description of the module (can be long) */

@@ -48,6 +48,9 @@ protected:
 	/** Pointer to the car structure. */
 	tCarElt* m_Car;
 
+	/** Pointer to the track the robot car is currently is driving on. */
+	tTrack* m_Track;
+
 	/* Robot car properties */
 	float m_AngleToTrack;
 	static int m_StuckCount;

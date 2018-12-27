@@ -180,6 +180,7 @@
     <ClCompile Include="BehaviorTree\Composites\BTCompositeSelector.cpp" />
     <ClCompile Include="BehaviorTree\BehaviorTree.cpp" />
     <ClCompile Include="BehaviorTree\Decorators\BTDecoratorNode.cpp" />
+    <ClCompile Include="BehaviorTree\Decorators\BTRepeatDecorator.cpp" />
     <ClCompile Include="Robots\Robot.cpp" />
     <ClCompile Include="robot_base.cpp" />
   </ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="BehaviorTree\BTTaskNode.h" />
     <ClInclude Include="BehaviorTree\Blackboard.h" />
     <ClInclude Include="BehaviorTree\Composites\BTCompositeSelector.h" />
+    <ClInclude Include="BehaviorTree\Decorators\BTRepeatDecorator.h" />
     <ClInclude Include="RobotAI\RobotTasks.h" />
     <ClInclude Include="Robots\Robot.h" />
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
 		
 	}
 
-	void SetChildNode(std::shared_ptr<BTTaskNode> NewTaskNode)
+	inline void SetChildNode(std::shared_ptr<BTTaskNode> NewTaskNode)
 	{
 		m_ChildNode = NewTaskNode;
 	}

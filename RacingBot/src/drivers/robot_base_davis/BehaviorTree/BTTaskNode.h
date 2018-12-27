@@ -14,7 +14,7 @@ enum class EStatus : uint8_t
 
 /**
  * 
- */
+*/
 class BTTaskNode : public BTNode
 {
 public:
@@ -66,6 +66,12 @@ public:
 	inline void ResetTask()
 	{
 		m_Status = EStatus::EInvalid;
+	}
+
+	/** Get the current task status */
+	inline EStatus GetStatus() const
+	{
+		return m_Status;
 	}
 
 protected:
