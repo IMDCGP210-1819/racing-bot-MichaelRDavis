@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClCompile Include="BehaviorTree\BTNode.cpp" />
     <ClCompile Include="BehaviorTree\BTTask.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTActiveSelector.cpp" />
     <ClCompile Include="BehaviorTree\Composites\BTComposite.cpp" />
     <ClCompile Include="BehaviorTree\Composites\BTMonitor.cpp" />
     <ClCompile Include="BehaviorTree\Composites\BTParallel.cpp" />
@@ -203,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTActiveSelector.h" />
     <ClInclude Include="BehaviorTree\Composites\BTComposite.h" />
     <ClInclude Include="BehaviorTree\Composites\BTMonitor.h" />
     <ClInclude Include="BehaviorTree\Composites\BTParallel.h" />
