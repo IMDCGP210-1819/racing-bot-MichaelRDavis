@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include "../BehaviorTree/BehaviorTree.h"
+#include "../BehaviorTree/Blackboard.h"
 #include "../BehaviorTree/Composites/BTSelector.h"
 #include "../RobotAI/RobotTasks.h"
 
@@ -79,39 +80,27 @@ void Robot::OnDrive()
 {
 	if (CanDrive())
 	{
-		m_TrackAngle = RtTrackSideTgAngleL(&(m_Car->_trkPos)) - m_Car->_yaw;
-#pragma warning(push)
-#pragma warning(disable : 4305)
-		NORM_PI_PI(m_TrackAngle);
-#pragma warning(pop)
-		m_TrackAngle -= STEERING_CONTROL * m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
-
-		m_Car->ctrl.steer = m_TrackAngle / m_Car->_steerLock;
+		float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
+		m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
 		m_Car->ctrl.gear = 1;
 		m_Car->ctrl.accelCmd = 0.3f;
 		m_Car->ctrl.brakeCmd = 0.0f;
 	}
 	else
 	{
-		m_TrackAngle = -RtTrackSideTgAngleL(&(m_Car->_trkPos)) + m_Car->_yaw;
-#pragma warning(push)
-#pragma warning(disable : 4305)
-		NORM_PI_PI(m_TrackAngle);
-#pragma warning(pop)
-
-		m_Car->ctrl.steer = m_TrackAngle / m_Car->_steerLock;
+		m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
 		m_Car->ctrl.gear = -1;
-		m_Car->ctrl.accelCmd = 0.5f;
+		m_Car->ctrl.accelCmd = 0.3f;
 		m_Car->ctrl.brakeCmd = 0.0f;
 	}
 }
 
 void Robot::Update(tCarElt* Car, tSituation* Situation)
 {
-	UpdateBehaviorTree();
 	m_TrackAngle = RtTrackSideTgAngleL(&(Car->_trkPos));
 	m_CarAngle = m_TrackAngle - Car->_yaw;
 	NORM_PI_PI(m_CarAngle);
+	UpdateBehaviorTree();
 }
 
 bool Robot::IsStuck() const

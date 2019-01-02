@@ -1,8 +1,14 @@
 #include "BTTask.h"
+#include "Blackboard.h"
 
 BTTask::BTTask()
 {
 	m_Status = EStatus::EInvalid;
+}
+
+BTTask::BTTask(std::shared_ptr<Blackboard> Board)
+{
+	m_Blackboard = Board;
 }
 
 BTTask::~BTTask()

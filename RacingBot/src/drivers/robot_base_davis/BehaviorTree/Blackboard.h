@@ -1,37 +1,32 @@
 #pragma once
 
 #include <cstdint>
+#include <unordered_map>
 
 /**
- * 
+ * Blackboard stores memory values has keyed pairs.
  */
-template<typename T>
 class Blackboard
 {
 public:
-	Blackboard()
+	template<typename T>
+	void SetVariable(uint32_t Key, T Type)
 	{
-
+		m_Variables[Key] = Type;
 	}
 
-	void SetVariable(uint32_t TypeID, const& T Type)
+	template<typename T>
+	T GetVariable(uint32_t Key)
 	{
-		it = std::find(m_VariableArray.begin(), m_VariableArray.end, Type);
-		if (it != m_VariableArray.end())
+		if (m_Variables.find(key) == m_Variables.end())
 		{
-			it->second = Type;
+			m_Variables[Key] = Type;
 		}
 
-
-	}
-
-	T GetVariable(uint32_t TypeID, T& Type) const
-	{
-
+		return m_Variables[Key];
 	}
 
 protected:
-	std::pair<uint32_t, T> m_VariableID;
-	std::vector<std::pair<uint32_t, T>> m_VariableArray;
-	std::vector<std::pair<uint32_t, T>>::iterator it;
+	template<typename T>
+	static std::unordered_map<uint32_t, T> m_Variables;
 };

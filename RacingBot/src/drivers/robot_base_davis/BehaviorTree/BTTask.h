@@ -1,7 +1,10 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include "../BehaviorTree/BTNode.h"
+
+class Blackboard;
 
 /** Task status */
 enum class EStatus : uint8_t
@@ -26,7 +29,10 @@ public:
 	BTTask();
 
 	/** Default BTtaskNode destructor. */
-	~BTTask();
+	virtual ~BTTask();
+
+	/** BTTaskNode constructor that creates a Blackboard. */
+	BTTask(std::shared_ptr<Blackboard> Board);
 
 	/** Update the current task, ideally called once per frame. */
 	EStatus Tick();
@@ -84,4 +90,7 @@ public:
 protected:
 	/** Current task status */
 	EStatus m_Status;
+
+	/** Pointer to the Blackboard */
+	std::shared_ptr<Blackboard> m_Blackboard;
 };

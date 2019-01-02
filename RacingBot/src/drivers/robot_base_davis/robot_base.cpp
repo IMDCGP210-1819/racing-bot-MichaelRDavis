@@ -53,10 +53,10 @@ static Robot* robotCars[NUM_ROBOTS];
 extern "C" int 
 robot_base_davis(tModInfo *modInfo) 
 {
-    memset(modInfo, 0, 10*sizeof(tModInfo));
-
 	char buffer[BUFFER_SIZE];
 	int index;
+
+    memset(modInfo, 0, 10*sizeof(tModInfo));
 
 	for (int i = 0; i < NUM_ROBOTS; i++)
 	{
@@ -111,7 +111,7 @@ initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSitu
 static void  
 newrace(int index, tCarElt* car, tSituation *s) 
 { 
-	robotCars[index]->Drive(car, s);
+	robotCars[index]->NewRace(car, s);
 } 
 
 /* Drive during race. */
