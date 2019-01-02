@@ -4,7 +4,7 @@
 #include <memory>
 
 /**
- * 
+ * Decorator nodes wrap functionality of underlying nodes.
  */
 class BTDecorator : public BTTask
 {

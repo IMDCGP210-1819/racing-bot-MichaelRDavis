@@ -8,6 +8,9 @@ enum class EPolicy : uint8_t
 	ERequireAll,
 };
 
+/**
+ * Parallel nodes tick all of their child nodes at the same time.
+ */
 class BTParallel : public BTComposite
 {
 public:

@@ -14,7 +14,10 @@ enum class EStatus : uint8_t
 };
 
 /**
- * 
+*	Task nodes perform tasks, evaluated once per frame with via the tick method.
+*	returns ESuccess if task is successful, 
+*	returns EFailure is task is not successful, 
+*	returns ERunning if the task is currently being evaluated.
 */
 class BTTask : public BTNode
 {
