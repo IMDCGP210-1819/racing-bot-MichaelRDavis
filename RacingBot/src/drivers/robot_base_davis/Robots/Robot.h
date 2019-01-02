@@ -20,20 +20,31 @@ public:
 	/** Default Robot constructor. */
 	Robot();
 
+	/** Robot constructor that sets the robot index. */
+	Robot(int Index);
+
 	/** Default Robot destructor. */
 	virtual ~Robot();
 
-	/** Create BehviorTree. */
-	void CreateBehaviorTree();
-	
-	/** Initialize robot car. */
-	void Initialize(tCarElt* Car);
+	/** TORCS callback functions. */
+	void InitTrack(tTrack* Track, void* CarHandle, void** CarParamHandle, tSituation* Situation);
+	void NewRace(tCarElt* Car, tSituation* Situation);
+	void Drive(tCarElt* Car, tSituation* Situation);
+	int PitCommand(tCarElt* Car, tSituation* Situation);
+	void EndRace(tCarElt* Car, tSituation* Situation);
 
-	/** Update robot car, ideally called once per frame. */
-	void Update();
+	/** Create the robot BehaviorTree. */
+	void CreateBehaviorTree();
+
+	/** Update robot car BehvaiorTree, called once per frame. */
+	void UpdateBehaviorTree();
 
 	/** Drive robot car forward. */
-	void Drive();
+	void OnDrive();
+
+private:
+	/** Update robot car, called once per frame. */
+	void Update(tCarElt* Car, tSituation* Situation);
 
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
@@ -41,7 +52,6 @@ public:
 	/** Check to see if the car can drive. */
 	bool CanDrive() const;
 
-protected:
 	/** Robot BehaviorTree. */
 	std::unique_ptr<BehaviorTree> m_BehaviorTree;
 
@@ -52,11 +62,15 @@ protected:
 	tTrack* m_Track;
 
 	/* Robot car properties */
-	float m_AngleToTrack;
+	float m_TrackAngle;
+	float m_CarAngle;
+	int m_Index;
+	int m_MaxStuckCount;
 	static int m_StuckCount;
-	const float STEERING_CONTROL = 1.0f;
-	const float MAX_UNSTUCK_SPEED = 5.0f;
-	const float MIN_UNSTUCK_DIST = 3.0f;
-	const float MAX_UNSTUCK_ANGLE = 30.0f;
-	const int MAX_UNSTUCK_COUNT = 100;
+	static const float MAX_UNSTUCK_ANGLE;
+	static const float UNSTUCK_TIME_LIMIT;
+	const float STEERING_CONTROL;
+	const float MAX_UNSTUCK_SPEED;
+	const float MIN_UNSTUCK_DIST;
+	const int MAX_UNSTUCK_COUNT;
 };

@@ -35,7 +35,9 @@
     <ClCompile Include="BehaviorTree\Composites\BTSequence.cpp">
       <Filter>BehaviorTree\Composites</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorTree\Composites\BTActiveSelector.cpp" />
+    <ClCompile Include="BehaviorTree\Composites\BTActiveSelector.cpp">
+      <Filter>BehaviorTree\Composites</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">
@@ -77,7 +79,9 @@
     <ClInclude Include="BehaviorTree\Decorators\BTRepeat.h">
       <Filter>BehaviorTree\Composites</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorTree\Composites\BTActiveSelector.h" />
+    <ClInclude Include="BehaviorTree\Composites\BTActiveSelector.h">
+      <Filter>BehaviorTree\Composites</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />

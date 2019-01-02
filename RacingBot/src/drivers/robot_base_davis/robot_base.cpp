@@ -44,7 +44,8 @@ static int  InitFuncPt(int index, void *pt);
 
 #define BUFFER_SIZE 20
 #define NUM_ROBOTS 2
-static char* robotNames[NUM_ROBOTS] = {"robot_davis", "robot_davis"};
+static char* robotNames[NUM_ROBOTS] = {"robot_davis", "robot_base"};
+static Robot* robotCars[NUM_ROBOTS];
 
 /* 
  * Module entry point  
@@ -57,17 +58,22 @@ robot_base_davis(tModInfo *modInfo)
 	char buffer[BUFFER_SIZE];
 	int index;
 
-	//for (int i = 0; i < NUM_ROBOTS; i++)
-	//{
-	//	sprintf(buffer, "Robot: %d", i + 1);
-	//	robotNames[i] = strdup(buffer);
-	//}
+	for (int i = 0; i < NUM_ROBOTS; i++)
+	{
+		sprintf(buffer, "Robot: %d", i + 1);
+		robotNames[i] = strdup(buffer);
+		modInfo[i].name = robotNames[i];
+		modInfo[i].desc = strdup("");
+		modInfo[i].fctInit = InitFuncPt;
+		modInfo[i].gfId = ROB_IDENT;
+		modInfo[i].index = i;
+	}
 
-    modInfo->name    = strdup("robot_base_davis");		/* name of the module (short) */
-    modInfo->desc    = strdup("");	/* description of the module (can be long) */
-    modInfo->fctInit = InitFuncPt;		/* init function */
-    modInfo->gfId    = ROB_IDENT;		/* supported framework version */
-    modInfo->index   = 1;
+    //modInfo->name    = strdup("robot_base_davis");		/* name of the module (short) */
+    //modInfo->desc    = strdup("");	/* description of the module (can be long) */
+    //modInfo->fctInit = InitFuncPt;		/* init function */
+    //modInfo->gfId    = ROB_IDENT;		/* supported framework version */
+    //modInfo->index   = 1;
 
     return 0; 
 } 
@@ -77,6 +83,8 @@ static int
 InitFuncPt(int index, void *pt) 
 { 
     tRobotItf *itf  = (tRobotItf *)pt; 
+
+	robotCars[index] = new Robot(index);
 
     itf->rbNewTrack = initTrack; /* Give the robot the track view called */ 
 				 /* for every track change or new race */ 
@@ -93,37 +101,38 @@ InitFuncPt(int index, void *pt)
 static void  
 initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s) 
 { 
-    curTrack = track;
-    *carParmHandle = NULL; 
+    //curTrack = track;
+    //*carParmHandle = NULL;
+
+	robotCars[index]->InitTrack(track, carHandle, carParmHandle, s);
 } 
 
 /* Start a new race. */
 static void  
 newrace(int index, tCarElt* car, tSituation *s) 
 { 
+	robotCars[index]->Drive(car, s);
 } 
 
 /* Drive during race. */
 static void  
 drive(int index, tCarElt* car, tSituation *s)
 {
-	memset((void *)&car->ctrl, 0, sizeof(tCarCtrl));
-
-	Robot robot;
-	robot.Initialize(car);
-	robot.CreateBehaviorTree();
-	robot.Update();
+	robotCars[index]->Drive(car, s);
 }
 
 /* End of the current race */
 static void
 endrace(int index, tCarElt *car, tSituation *s)
 {
+	robotCars[index]->EndRace(car, s);
 }
 
 /* Called before the module is unloaded */
 static void
 shutdown(int index)
 {
+	free(robotNames[index]);
+	delete robotCars[index];
 }
 

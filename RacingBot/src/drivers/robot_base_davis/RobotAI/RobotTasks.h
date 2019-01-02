@@ -22,7 +22,7 @@ public:
 	{
 		if (m_Robot)
 		{
-			m_Robot->Drive();
+			m_Robot->OnDrive();
 			return EStatus::ESuccess;
 		}
 
