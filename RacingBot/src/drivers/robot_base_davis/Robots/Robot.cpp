@@ -1,7 +1,7 @@
 #include "Robot.h"
 #include "../BehaviorTree/BehaviorTree.h"
 #include "../BehaviorTree/Blackboard.h"
-#include "../BehaviorTree/Composites/BTSelector.h"
+#include "../BehaviorTree/Composites/BTSequence.h"
 #include "../RobotAI/RobotTasks.h"
 
 int Robot::m_StuckCount = 0;
@@ -51,7 +51,7 @@ void Robot::Drive(tCarElt* Car, tSituation* Situation)
 	m_Car = Car;
 	Update(Car, Situation);
 	memset(&Car->ctrl, 0, sizeof(tCarCtrl));
-	OnDrive();
+	UpdateBehaviorTree();
 }
 
 int Robot::PitCommand(tCarElt* Car, tSituation* Situation)
@@ -66,7 +66,7 @@ void Robot::EndRace(tCarElt* Car, tSituation* Situation)
 
 void Robot::CreateBehaviorTree()
 {
-	auto sequence = std::make_shared<BTSelector>();
+	auto sequence = std::make_shared<BTSequence>();
 	sequence->InsertChildNode(std::make_shared<DriveTask>(this));
 	m_BehaviorTree->SetRootNode(sequence);
 }
@@ -100,14 +100,13 @@ void Robot::Update(tCarElt* Car, tSituation* Situation)
 	m_TrackAngle = RtTrackSideTgAngleL(&(Car->_trkPos));
 	m_CarAngle = m_TrackAngle - Car->_yaw;
 	NORM_PI_PI(m_CarAngle);
-	UpdateBehaviorTree();
 }
 
 bool Robot::IsStuck() const
 {
-	if (fabs(m_TrackAngle) > MAX_UNSTUCK_ANGLE && m_Car->_speed_x < MAX_UNSTUCK_SPEED && fabs(m_Car->_trkPos.toMiddle) > MIN_UNSTUCK_DIST)
+	if (fabs(m_CarAngle) > MAX_UNSTUCK_ANGLE && m_Car->_speed_x < MAX_UNSTUCK_SPEED && fabs(m_Car->_trkPos.toMiddle) > MIN_UNSTUCK_DIST)
 	{
-		if (m_StuckCount > MAX_UNSTUCK_COUNT && m_Car->_trkPos.toMiddle * m_TrackAngle < 0.0f)
+		if (m_StuckCount > MAX_UNSTUCK_COUNT && m_Car->_trkPos.toMiddle * m_CarAngle < 0.0f)
 		{
 			return true;
 		}

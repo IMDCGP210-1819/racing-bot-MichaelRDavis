@@ -1,15 +1,5 @@
 #include "BTSequence.h"
 
-BTSequence::BTSequence()
-{
-
-}
-
-BTSequence::~BTSequence()
-{
-
-}
-
 void BTSequence::OnInitialize()
 {
 	it = m_Children.begin();
@@ -29,4 +19,9 @@ EStatus BTSequence::OnUpdate()
 	}
 
 	return EStatus::ESuccess;
+}
+
+void BTSequence::OnTerminate(EStatus status)
+{
+
 }
