@@ -10,7 +10,7 @@ class Blackboard
 {
 public:
 	template<typename T>
-	void SetVariable(uint32_t Key, T Type)
+	void SetVariable(uint32_t Key, const T& Type)
 	{
 		m_Variables[Key] = Type;
 	}

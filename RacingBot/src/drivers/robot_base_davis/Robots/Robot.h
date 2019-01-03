@@ -32,6 +32,9 @@ public:
 	void Drive(tCarElt* Car, tSituation* Situation);
 	int PitCommand(tCarElt* Car, tSituation* Situation);
 	void EndRace(tCarElt* Car, tSituation* Situation);
+	
+	/** Create the robot Blackboard. */
+	void CreateBlackboard();
 
 	/** Create the robot BehaviorTree. */
 	void CreateBehaviorTree();
@@ -45,6 +48,9 @@ public:
 private:
 	/** Update robot car, called once per frame. */
 	void Update(tCarElt* Car, tSituation* Situation);
+
+	/** Get the allowed speed on the current track segment. */
+	float GetTrackSegmentSpeed(tTrackSeg* Segment);
 
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
@@ -69,6 +75,8 @@ private:
 	static int m_StuckCount;
 	static const float MAX_UNSTUCK_ANGLE;
 	static const float UNSTUCK_TIME_LIMIT;
+	const float GRAVITY_SCALE;
+	const float FULL_ACCELERATION;
 	const float STEERING_CONTROL;
 	const float MAX_UNSTUCK_SPEED;
 	const float MIN_UNSTUCK_DIST;

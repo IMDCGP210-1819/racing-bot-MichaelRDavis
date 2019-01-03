@@ -44,7 +44,7 @@ static int  InitFuncPt(int index, void *pt);
 
 #define BUFFER_SIZE 20
 #define NUM_ROBOTS 2
-static char* robotNames[NUM_ROBOTS] = {"robot_davis", "robot_base"};
+static char* robotNames[NUM_ROBOTS];
 static Robot* robotCars[NUM_ROBOTS];
 
 /* 

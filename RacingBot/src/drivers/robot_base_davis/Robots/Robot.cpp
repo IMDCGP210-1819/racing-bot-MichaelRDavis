@@ -13,9 +13,14 @@ Robot::Robot()
 	, MIN_UNSTUCK_DIST(3.0f)
 	, STEERING_CONTROL(1.0f)
 	, MAX_UNSTUCK_COUNT(100)
+	, GRAVITY_SCALE(9.80f)
+	, FULL_ACCELERATION(1.0f)
 {
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
-	CreateBehaviorTree();
+	if (m_BehaviorTree)
+	{
+		CreateBehaviorTree();
+	}
 }
 
 Robot::Robot(int Index)
@@ -23,9 +28,15 @@ Robot::Robot(int Index)
 	, MIN_UNSTUCK_DIST(3.0f)
 	, STEERING_CONTROL(1.0f)
 	, MAX_UNSTUCK_COUNT(100)
+	, GRAVITY_SCALE(9.80f)
+	, FULL_ACCELERATION(1.0f)
 {
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
-	CreateBehaviorTree();
+	if (m_BehaviorTree)
+	{
+		CreateBehaviorTree();
+	}
+
 	m_Index = Index;
 }
 
@@ -64,6 +75,14 @@ void Robot::EndRace(tCarElt* Car, tSituation* Situation)
 
 }
 
+void Robot::CreateBlackboard()
+{
+	if (m_BehaviorTree)
+	{
+		
+	}
+}
+
 void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
@@ -100,6 +119,19 @@ void Robot::Update(tCarElt* Car, tSituation* Situation)
 	m_TrackAngle = RtTrackSideTgAngleL(&(Car->_trkPos));
 	m_CarAngle = m_TrackAngle - Car->_yaw;
 	NORM_PI_PI(m_CarAngle);
+}
+
+float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
+{
+	if (Segment->type == TR_STR)
+	{
+		return FLT_MAX;
+	}
+	else
+	{
+		float Friction = Segment->surface->kFriction;
+		return sqrt(Friction * GRAVITY_SCALE * Segment->radius);
+	}
 }
 
 bool Robot::IsStuck() const
