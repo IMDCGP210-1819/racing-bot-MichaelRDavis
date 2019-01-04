@@ -3,16 +3,9 @@
 #include "../BehaviorTree/BTTask.h"
 #include "../Robots/Robot.h"
 
-class Robot;
-
 class DriveTask : public BTTask
 {
 public:
-	DriveTask(Robot* robot)
-	{
-		m_Robot = robot;
-	}
-
 	void OnInitialize() override
 	{
 		
@@ -20,9 +13,10 @@ public:
 
 	EStatus OnUpdate() override
 	{
-		if (m_Robot)
+		Robot* bt = (Robot*)m_Blackboard->GetVariable(0);
+		if (bt)
 		{
-			m_Robot->OnDrive();
+			bt->OnDrive();
 			return EStatus::ESuccess;
 		}
 
@@ -33,7 +27,4 @@ public:
 	{
 
 	}
-
-private:
-	Robot* m_Robot;
 };

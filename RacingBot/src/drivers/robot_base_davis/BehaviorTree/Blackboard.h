@@ -9,24 +9,10 @@
 class Blackboard
 {
 public:
-	template<typename T>
-	void SetVariable(uint32_t Key, const T& Type)
-	{
-		m_Variables[Key] = Type;
-	}
+	void SetVariable(uint32_t Key, void* Type);
 
-	template<typename T>
-	T GetVariable(uint32_t Key)
-	{
-		if (m_Variables.find(key) == m_Variables.end())
-		{
-			m_Variables[Key] = Type;
-		}
-
-		return m_Variables[Key];
-	}
+	void* GetVariable(uint32_t Key);
 
 protected:
-	template<typename T>
-	static std::unordered_map<uint32_t, T> m_Variables;
+	std::unordered_map<uint32_t, void*> m_Variables;
 };

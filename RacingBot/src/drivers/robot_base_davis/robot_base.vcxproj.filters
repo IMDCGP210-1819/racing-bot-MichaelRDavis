@@ -38,6 +38,9 @@
     <ClCompile Include="BehaviorTree\Composites\BTActiveSelector.cpp">
       <Filter>BehaviorTree\Composites</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviorTree\Blackboard.cpp">
+      <Filter>BehaviorTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">

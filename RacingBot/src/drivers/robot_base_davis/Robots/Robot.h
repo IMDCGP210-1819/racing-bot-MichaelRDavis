@@ -52,6 +52,9 @@ private:
 	/** Get the allowed speed on the current track segment. */
 	float GetTrackSegmentSpeed(tTrackSeg* Segment);
 
+	/** Get the distance to the end of the current track segment. */
+	float GetTrackSegmentEndDistance(tCarElt* Car);
+
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
 

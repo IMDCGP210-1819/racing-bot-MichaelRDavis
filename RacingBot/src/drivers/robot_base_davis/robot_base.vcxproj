@@ -173,6 +173,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BehaviorTree\Blackboard.cpp" />
     <ClCompile Include="BehaviorTree\BTNode.cpp" />
     <ClCompile Include="BehaviorTree\BTTask.cpp" />
     <ClCompile Include="BehaviorTree\Composites\BTActiveSelector.cpp" />

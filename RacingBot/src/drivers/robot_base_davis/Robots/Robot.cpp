@@ -19,6 +19,7 @@ Robot::Robot()
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
 	if (m_BehaviorTree)
 	{
+		CreateBlackboard();
 		CreateBehaviorTree();
 	}
 }
@@ -34,6 +35,7 @@ Robot::Robot(int Index)
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
 	if (m_BehaviorTree)
 	{
+		CreateBlackboard();
 		CreateBehaviorTree();
 	}
 
@@ -79,14 +81,14 @@ void Robot::CreateBlackboard()
 {
 	if (m_BehaviorTree)
 	{
-		
+		m_BehaviorTree->GetBlackbaord()->SetVariable(0, this);
 	}
 }
 
 void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
-	sequence->InsertChildNode(std::make_shared<DriveTask>(this));
+	sequence->InsertChildNode(std::make_shared<DriveTask>());
 	m_BehaviorTree->SetRootNode(sequence);
 }
 
@@ -131,6 +133,18 @@ float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
 	{
 		float Friction = Segment->surface->kFriction;
 		return sqrt(Friction * GRAVITY_SCALE * Segment->radius);
+	}
+}
+
+float Robot::GetTrackSegmentEndDistance(tCarElt* Car)
+{
+	if (Car->_trkPos.seg->type == TR_STR)
+	{
+		return Car->_trkPos.seg->length - Car->_trkPos.toStart;
+	}
+	else
+	{
+		return (Car->_trkPos.seg->arc - Car->_trkPos.toStart) * Car->_trkPos.seg->radius;
 	}
 }
 
