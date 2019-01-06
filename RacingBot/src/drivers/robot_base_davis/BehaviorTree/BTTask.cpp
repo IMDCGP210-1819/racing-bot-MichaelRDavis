@@ -6,9 +6,10 @@ BTTask::BTTask()
 	m_Status = EStatus::EInvalid;
 }
 
-BTTask::BTTask(std::shared_ptr<Blackboard> Board)
+BTTask::BTTask(const std::shared_ptr<Blackboard>& Board)
+	: m_Blackboard(Board)
 {
-	m_Blackboard = Board;
+
 }
 
 BTTask::~BTTask()

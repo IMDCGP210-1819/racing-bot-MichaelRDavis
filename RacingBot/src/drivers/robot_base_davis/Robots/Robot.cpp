@@ -88,13 +88,17 @@ void Robot::CreateBlackboard()
 void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
-	sequence->InsertChildNode(std::make_shared<DriveTask>());
+	auto task = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
+	sequence->InsertChildNode(task);
 	m_BehaviorTree->SetRootNode(sequence);
 }
 
 void Robot::UpdateBehaviorTree()
 {
-	m_BehaviorTree->Update();
+	if (m_BehaviorTree)
+	{
+		m_BehaviorTree->Update();
+	}
 }
 
 void Robot::OnDrive()
@@ -145,6 +149,21 @@ float Robot::GetTrackSegmentEndDistance(tCarElt* Car)
 	else
 	{
 		return (Car->_trkPos.seg->arc - Car->_trkPos.toStart) * Car->_trkPos.seg->radius;
+	}
+}
+
+float Robot::GetAcceleration(tCarElt* Car)
+{
+	float Speed = GetTrackSegmentSpeed(Car->_trkPos.seg);
+	float GearRatio = Car->_gearRatio[Car->_gear + Car->_gearOffset];
+	float MaxRPM = Car->_enginerpmRedLine;
+	if (Speed > Car->_speed_x + FULL_ACCELERATION)
+	{
+		return 1.0f;
+	}
+	else
+	{
+		return Speed / Car->_wheelRadius(REAR_RGT) * GearRatio / MaxRPM;
 	}
 }
 

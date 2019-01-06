@@ -32,7 +32,7 @@ public:
 	virtual ~BTTask();
 
 	/** BTTaskNode constructor that creates a Blackboard. */
-	BTTask(std::shared_ptr<Blackboard> Board);
+	BTTask(const std::shared_ptr<Blackboard>& Board);
 
 	/** Update the current task, ideally called once per frame. */
 	EStatus Tick();

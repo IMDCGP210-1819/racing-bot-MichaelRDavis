@@ -6,6 +6,12 @@
 class DriveTask : public BTTask
 {
 public:
+	DriveTask(const std::shared_ptr<Blackboard>& Board)
+		: BTTask(Board)
+	{
+
+	}
+
 	void OnInitialize() override
 	{
 		
@@ -13,10 +19,10 @@ public:
 
 	EStatus OnUpdate() override
 	{
-		Robot* bt = (Robot*)m_Blackboard->GetVariable(0);
-		if (bt)
+		Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+		if (robot)
 		{
-			bt->OnDrive();
+			robot->OnDrive();
 			return EStatus::ESuccess;
 		}
 

@@ -55,6 +55,9 @@ private:
 	/** Get the distance to the end of the current track segment. */
 	float GetTrackSegmentEndDistance(tCarElt* Car);
 
+	/** Calculate acceleration. */
+	float GetAcceleration(tCarElt* Car);
+
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
 
@@ -67,7 +70,7 @@ private:
 	/** Pointer to the car structure. */
 	tCarElt* m_Car;
 
-	/** Pointer to the track the robot car is currently is driving on. */
+	/** Pointer to the track the robot car is currently driving on. */
 	tTrack* m_Track;
 
 	/* Robot car properties */
