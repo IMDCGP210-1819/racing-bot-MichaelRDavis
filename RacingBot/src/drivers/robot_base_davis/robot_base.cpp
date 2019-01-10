@@ -69,12 +69,6 @@ robot_base_davis(tModInfo *modInfo)
 		modInfo[i].index = i;
 	}
 
-    //modInfo->name    = strdup("robot_base_davis");		/* name of the module (short) */
-    //modInfo->desc    = strdup("");	/* description of the module (can be long) */
-    //modInfo->fctInit = InitFuncPt;		/* init function */
-    //modInfo->gfId    = ROB_IDENT;		/* supported framework version */
-    //modInfo->index   = 1;
-
     return 0; 
 } 
 
@@ -101,9 +95,6 @@ InitFuncPt(int index, void *pt)
 static void  
 initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s) 
 { 
-    //curTrack = track;
-    //*carParmHandle = NULL;
-
 	robotCars[index]->InitTrack(track, carHandle, carParmHandle, s);
 } 
 

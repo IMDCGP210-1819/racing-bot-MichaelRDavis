@@ -18,24 +18,24 @@
 	<attstr name="name" val="robot_davis"></attstr>
 	<attstr name="desc" val=""></attstr>
 	<attstr name="team" val=""></attstr>
-	<attstr name="author" val="Author"></attstr>
+	<attstr name="author" val="Michael Davis"></attstr>
 	<attstr name="car name" val="car1-stock1"></attstr>
 	<attstr name="category" val="stock1"></attstr>
-	<attnum name="race number" val="0"></attnum>
+	<attnum name="race number" val="61"></attnum>
 	<attnum name="red" val="1.0"></attnum>
-	<attnum name="green" val="1.0"></attnum>
+	<attnum name="green" val="0.0"></attnum>
 	<attnum name="blue" val="1.0"></attnum>
       </section>
       <section name="1">
   <attstr name="name" val="robot_1"></attstr>
   <attstr name="desc" val=""></attstr>
   <attstr name="team" val=""></attstr>
-  <attstr name="author" val=""></attstr>
+  <attstr name="author" val="Michael Davis"></attstr>
   <attstr name="car name" val="xj-220"></attstr>
   <attstr name="category" val="stock1"></attstr>
-  <attnum name="race number" val="0"></attnum>
+  <attnum name="race number" val="62"></attnum>
   <attnum name="red" val="1.0"></attnum>
-  <attnum name="green" val="1.0"></attnum>
+  <attnum name="green" val="0.0"></attnum>
   <attnum name="blue" val="1.0"></attnum>
       </section>
     </section>

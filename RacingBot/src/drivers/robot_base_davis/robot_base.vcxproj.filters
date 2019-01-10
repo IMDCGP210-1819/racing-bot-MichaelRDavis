@@ -41,6 +41,9 @@
     <ClCompile Include="BehaviorTree\Blackboard.cpp">
       <Filter>BehaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="RobotTasks.cpp">
+      <Filter>RobotAI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">

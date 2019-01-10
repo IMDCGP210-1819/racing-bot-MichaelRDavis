@@ -10,6 +10,7 @@
 #include <memory>
 
 class BehaviorTree;
+class DriveTask;
 
 /**
  * This class is responsible for handling the cars driving behavior.
@@ -43,7 +44,10 @@ public:
 	void UpdateBehaviorTree();
 
 	/** Drive robot car forward. */
-	void OnDrive();
+	void OnDrive(tdble Accel, tdble Brake);
+
+	/** DriveTask can access Robots private members. */
+	friend DriveTask;
 
 private:
 	/** Update robot car, called once per frame. */
@@ -57,6 +61,9 @@ private:
 
 	/** Calculate acceleration. */
 	float GetAcceleration(tCarElt* Car);
+
+	/** Calculate braking */
+	float GetBraking(tCarElt* Car);
 
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;

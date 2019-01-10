@@ -186,6 +186,7 @@
     <ClCompile Include="BehaviorTree\Decorators\BTDecorator.cpp" />
     <ClCompile Include="BehaviorTree\Decorators\BTRepeat.cpp" />
     <ClCompile Include="Robots\Robot.cpp" />
+    <ClCompile Include="RobotTasks.cpp" />
     <ClCompile Include="robot_base.cpp" />
   </ItemGroup>
   <ItemGroup>

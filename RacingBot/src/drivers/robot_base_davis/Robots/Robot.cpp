@@ -82,6 +82,8 @@ void Robot::CreateBlackboard()
 	if (m_BehaviorTree)
 	{
 		m_BehaviorTree->GetBlackbaord()->SetVariable(0, this);
+		m_BehaviorTree->GetBlackbaord()->SetVariable(1, &(tdble)m_Car->ctrl.accelCmd);
+		m_BehaviorTree->GetBlackbaord()->SetVariable(2, &(tdble)m_Car->ctrl.brakeCmd);
 	}
 }
 
@@ -101,15 +103,22 @@ void Robot::UpdateBehaviorTree()
 	}
 }
 
-void Robot::OnDrive()
+void Robot::OnDrive(tdble Accel, tdble Brake)
 {
 	if (CanDrive())
 	{
 		float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
 		m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
-		m_Car->ctrl.gear = 1;
-		m_Car->ctrl.accelCmd = 0.3f;
-		m_Car->ctrl.brakeCmd = 0.0f;
+		m_Car->ctrl.gear = 4;
+		m_Car->ctrl.brakeCmd = Brake;
+		if (m_Car->ctrl.brakeCmd == 0.0f)
+		{
+			m_Car->ctrl.accelCmd = Accel;
+		}
+		else
+		{
+			m_Car->ctrl.accelCmd = 0.0f;
+		}
 	}
 	else
 	{
@@ -165,6 +174,38 @@ float Robot::GetAcceleration(tCarElt* Car)
 	{
 		return Speed / Car->_wheelRadius(REAR_RGT) * GearRatio / MaxRPM;
 	}
+}
+
+float Robot::GetBraking(tCarElt* Car)
+{
+	tTrackSeg* Segment = Car->_trkPos.seg;
+	float CurrentSpeedSq = Car->_speed_x * Car->_speed_x;
+	float Friction = Segment->surface->kFriction;
+	float MaxHeading = CurrentSpeedSq / (2.0f * Friction * GRAVITY_SCALE);
+	float Heading = GetTrackSegmentEndDistance(Car);
+	float TrackSpeed = GetTrackSegmentSpeed(Segment);
+	
+	if (TrackSpeed < Car->_speed_x)
+		return 1.0f;
+
+	Segment = Segment->next;
+	while (Heading < MaxHeading)
+	{
+		TrackSpeed = GetTrackSegmentSpeed(Segment);
+		if (TrackSpeed < Car->_speed_x)
+		{
+			float SpeedSq = TrackSpeed * TrackSpeed;
+			float BrakeDist = (CurrentSpeedSq - SpeedSq) / (2.0f * Friction * GRAVITY_SCALE);
+			if (BrakeDist > Heading)
+			{
+				return 1.0f;
+			}
+		}
+		Heading += Segment->length;
+		Segment = Segment->next;
+	}
+
+	return 0.0f;
 }
 
 bool Robot::IsStuck() const
