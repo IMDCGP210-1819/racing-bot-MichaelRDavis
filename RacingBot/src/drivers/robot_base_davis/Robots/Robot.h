@@ -89,6 +89,15 @@ private:
 	/** Pointer to the track the robot car is currently driving on. */
 	tTrack* m_Track;
 
+	/** Current robot car acceleration */
+	tdble m_Acceleration;
+
+	/** Current robot car braking */
+	tdble m_Brake;
+
+	/** Current robot car gear */
+	int m_Gear;
+
 	/* Robot car properties */
 	float m_TrackAngle;
 	float m_CarAngle;

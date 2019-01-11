@@ -14,16 +14,15 @@ void DriveTask::OnInitialize()
 EStatus DriveTask::OnUpdate()
 {
 	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	//tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
-	//tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
-	//int gear = *(int*)m_Blackboard->GetVariable(3);
-	if (robot->CanDrive())
+	tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
+	tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
+	int gear = *(int*)m_Blackboard->GetVariable(3);
+	if (robot)
 	{
+		robot->m_Acceleration = (tdble)robot->GetAcceleration(robot->m_Car);
+		robot->m_Brake = (tdble)robot->GetBraking(robot->m_Car);
+		robot->m_Gear = (int)robot->GetGear(robot->m_Car);
 		robot->OnDrive();
-		//accel = (tdble)robot->GetAcceleration(robot->m_Car);
-		//brake = (tdble)robot->GetBraking(robot->m_Car);
-		//gear = (int)robot->GetGear(robot->m_Car);
-		//robot->OnDrive(accel, brake, gear);
 		return EStatus::ESuccess;
 	}
 
@@ -48,12 +47,12 @@ void ReverseTask::OnInitialize()
 
 EStatus ReverseTask::OnUpdate()
 {
-	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	if (robot->IsStuck())
-	{
-		robot->OnReverse();
-		return EStatus::ESuccess;
-	}
+	//Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+	//if (robot->IsStuck())
+	//{
+	//	robot->OnReverse();
+	//	return EStatus::ESuccess;
+	//}
 
 	return EStatus::EInvalid;
 }
@@ -76,15 +75,21 @@ void AccelerateTask::OnInitialize()
 
 EStatus AccelerateTask::OnUpdate()
 {
-	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
-	if (robot)
-	{
-		robot->OnDrive();
-		robot->GetAcceleration(robot->m_Car);
-		robot->m_Car->ctrl.accelCmd = accel;
-		return EStatus::ESuccess;
-	}
+	//Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+	//tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
+	//if (robot)
+	//{
+	//	robot->GetAcceleration(robot->m_Car);
+	//	if (robot->m_Car->ctrl.brakeCmd == 0.0f)
+	//	{
+	//		robot->m_Car->ctrl.accelCmd = accel;
+	//	}
+	//	else
+	//	{
+	//		robot->m_Car->ctrl.accelCmd = 0.0f;
+	//	}
+	//	return EStatus::ESuccess;
+	//}
 
 	return EStatus::EInvalid;
 }
@@ -107,15 +112,14 @@ void BrakeTask::OnInitialize()
 
 EStatus BrakeTask::OnUpdate()
 {
-	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
-	if (robot)
-	{
-		robot->OnDrive();
-		robot->GetBraking(robot->m_Car);
-		robot->m_Car->ctrl.brakeCmd = brake;
-		return EStatus::ESuccess;
-	}
+	//Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+	//tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
+	//if (robot)
+	//{
+	//	robot->GetBraking(robot->m_Car);
+	//	robot->m_Car->ctrl.brakeCmd = brake;
+	//	return EStatus::ESuccess;
+	//}
 
 	return EStatus::EInvalid;
 }
@@ -138,15 +142,14 @@ void ShiftGearTask::OnInitialize()
 
 EStatus ShiftGearTask::OnUpdate()
 {
-	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	int gear = *(int*)m_Blackboard->GetVariable(3);
-	if (robot)
-	{
-		robot->OnDrive();
-		robot->GetGear(robot->m_Car);
-		robot->m_Car->ctrl.gear = gear;
-		return EStatus::ESuccess;
-	}
+	//Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+	//int gear = *(int*)m_Blackboard->GetVariable(3);
+	//if (robot)
+	//{
+	//	robot->GetGear(robot->m_Car);
+	//	robot->m_Car->ctrl.gear = gear;
+	//	return EStatus::ESuccess;
+	//}
 
 	return EStatus::EInvalid;
 }

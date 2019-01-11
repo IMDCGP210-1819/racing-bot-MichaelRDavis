@@ -116,28 +116,28 @@ void Robot::UpdateBehaviorTree()
 
 void Robot::OnDrive()
 {
-	//if (CanDrive())
-	//{
+	if (CanDrive())
+	{
 		float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
 		m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
-	//	m_Car->ctrl.gear = Gear;
-	//	m_Car->ctrl.brakeCmd = Brake;
-	//	if (m_Car->ctrl.brakeCmd == 0.0f)
-	//	{
-	//		m_Car->ctrl.accelCmd = Accel;
-	//	}
-	//	else
-	//	{
-	//		m_Car->ctrl.accelCmd = 0.0f;
-	//	}
-	//}
-	//else
-	//{
-	//	m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
-	//	m_Car->ctrl.gear = -1;
-	//	m_Car->ctrl.accelCmd = 0.3f;
-	//	m_Car->ctrl.brakeCmd = 0.0f;
-	//}
+		m_Car->ctrl.gear = m_Gear;
+		m_Car->ctrl.brakeCmd = m_Brake;
+		if (m_Car->ctrl.brakeCmd == 0.0f)
+		{
+			m_Car->ctrl.accelCmd = m_Acceleration;
+		}
+		else
+		{
+			m_Car->ctrl.accelCmd = 0.0f;
+		}
+	}
+	else
+	{
+		m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
+		m_Car->ctrl.gear = -1;
+		m_Car->ctrl.accelCmd = 0.3f;
+		m_Car->ctrl.brakeCmd = 0.0f;
+	}
 }
 
 void Robot::OnReverse()
