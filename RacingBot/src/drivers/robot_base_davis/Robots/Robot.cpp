@@ -7,6 +7,8 @@
 int Robot::m_StuckCount = 0;
 const float Robot::MAX_UNSTUCK_ANGLE = 30.0f / 180.0f * PI;
 const float Robot::UNSTUCK_TIME_LIMIT = 2.0f;
+const float Robot::SHIFT = 0.9f;
+const float Robot::SHIFT_MARGIN = 4.0f;
 
 Robot::Robot()
 	: MAX_UNSTUCK_SPEED(5.0f)
@@ -84,6 +86,7 @@ void Robot::CreateBlackboard()
 		m_BehaviorTree->GetBlackbaord()->SetVariable(0, this);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(1, &(tdble)m_Car->ctrl.accelCmd);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(2, &(tdble)m_Car->ctrl.brakeCmd);
+		m_BehaviorTree->GetBlackbaord()->SetVariable(3, &(int)m_Car->ctrl.gear);
 	}
 }
 
@@ -103,13 +106,13 @@ void Robot::UpdateBehaviorTree()
 	}
 }
 
-void Robot::OnDrive(tdble Accel, tdble Brake)
+void Robot::OnDrive(tdble Accel, tdble Brake, int Gear)
 {
 	if (CanDrive())
 	{
 		float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
 		m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
-		m_Car->ctrl.gear = 4;
+		m_Car->ctrl.gear = Gear;
 		m_Car->ctrl.brakeCmd = Brake;
 		if (m_Car->ctrl.brakeCmd == 0.0f)
 		{
@@ -206,6 +209,32 @@ float Robot::GetBraking(tCarElt* Car)
 	}
 
 	return 0.0f;
+}
+
+int Robot::GetGear(tCarElt* Car)
+{
+	if (Car->_gear <= 0)
+		return 1;
+
+	float GearUp = Car->_gearRatio[Car->_gear + Car->_gearOffset];
+	float Omega = Car->_enginerpmRedLine / GearUp;
+	float WheelRadius = Car->_wheelRadius(2);
+
+	if (Omega * WheelRadius * SHIFT < Car->_speed_x)
+	{
+		return Car->_gear + 1;
+	}
+	else
+	{
+		float GearDown = Car->_gearRatio[Car->_gear + Car->_gearOffset - 1];
+		Omega = Car->_enginerpmRedLine / GearDown;
+		if (Car->_gear > 1 && Omega * WheelRadius * SHIFT > Car->_speed_x + SHIFT_MARGIN)
+		{
+			return Car->_gear - 1;
+		}
+
+		return Car->_gear;
+	}
 }
 
 bool Robot::IsStuck() const

@@ -41,8 +41,11 @@
     <ClCompile Include="BehaviorTree\Blackboard.cpp">
       <Filter>BehaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="RobotTasks.cpp">
+    <ClCompile Include="RobotAI\RobotTasks.cpp">
       <Filter>RobotAI</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vec2.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,9 @@
     <ClInclude Include="BehaviorTree\Composites\BTActiveSelector.h">
       <Filter>BehaviorTree\Composites</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Vec2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="robot_base.def" />
@@ -107,6 +113,9 @@
     </Filter>
     <Filter Include="BehaviorTree\Decorators">
       <UniqueIdentifier>{5222d344-c116-4db6-ab39-7106c5db61fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{85b33f45-59e7-4fdf-ac0e-19310e5b58f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

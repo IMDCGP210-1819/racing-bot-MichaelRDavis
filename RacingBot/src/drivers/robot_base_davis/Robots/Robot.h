@@ -44,12 +44,8 @@ public:
 	void UpdateBehaviorTree();
 
 	/** Drive robot car forward. */
-	void OnDrive(tdble Accel, tdble Brake);
+	void OnDrive(tdble Accel, tdble Brake, int Gear);
 
-	/** DriveTask can access Robots private members. */
-	friend DriveTask;
-
-private:
 	/** Update robot car, called once per frame. */
 	void Update(tCarElt* Car, tSituation* Situation);
 
@@ -65,12 +61,19 @@ private:
 	/** Calculate braking */
 	float GetBraking(tCarElt* Car);
 
+	/** Calculate the current gear */
+	int GetGear(tCarElt* Car);
+
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
 
 	/** Check to see if the car can drive. */
 	bool CanDrive() const;
 
+	/** DriveTask can access Robots private members. */
+	friend DriveTask;
+
+private:
 	/** Robot BehaviorTree. */
 	std::unique_ptr<BehaviorTree> m_BehaviorTree;
 
@@ -88,6 +91,8 @@ private:
 	static int m_StuckCount;
 	static const float MAX_UNSTUCK_ANGLE;
 	static const float UNSTUCK_TIME_LIMIT;
+	static const float SHIFT;
+	static const float SHIFT_MARGIN;
 	const float GRAVITY_SCALE;
 	const float FULL_ACCELERATION;
 	const float STEERING_CONTROL;
