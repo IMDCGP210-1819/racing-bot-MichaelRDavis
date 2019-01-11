@@ -31,7 +31,7 @@
   <attstr name="desc" val=""></attstr>
   <attstr name="team" val=""></attstr>
   <attstr name="author" val="Michael Davis"></attstr>
-  <attstr name="car name" val="xj-220"></attstr>
+  <attstr name="car name" val="car1-stock1"></attstr>
   <attstr name="category" val="stock1"></attstr>
   <attnum name="race number" val="62"></attnum>
   <attnum name="red" val="1.0"></attnum>

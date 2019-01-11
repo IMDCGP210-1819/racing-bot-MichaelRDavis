@@ -93,8 +93,16 @@ void Robot::CreateBlackboard()
 void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
-	auto task = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
-	sequence->InsertChildNode(task);
+	auto driveTask = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
+	auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
+	auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
+	auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
+	auto gearTask = std::make_shared<ShiftGearTask>(m_BehaviorTree->GetBlackbaord());
+	sequence->InsertChildNode(driveTask);
+	sequence->InsertChildNode(reverseTask);
+	sequence->InsertChildNode(accelTask);
+	sequence->InsertChildNode(brakeTask);
+	sequence->InsertChildNode(gearTask);
 	m_BehaviorTree->SetRootNode(sequence);
 }
 
@@ -106,30 +114,38 @@ void Robot::UpdateBehaviorTree()
 	}
 }
 
-void Robot::OnDrive(tdble Accel, tdble Brake, int Gear)
+void Robot::OnDrive()
 {
-	if (CanDrive())
-	{
+	//if (CanDrive())
+	//{
 		float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
 		m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
-		m_Car->ctrl.gear = Gear;
-		m_Car->ctrl.brakeCmd = Brake;
-		if (m_Car->ctrl.brakeCmd == 0.0f)
-		{
-			m_Car->ctrl.accelCmd = Accel;
-		}
-		else
-		{
-			m_Car->ctrl.accelCmd = 0.0f;
-		}
-	}
-	else
-	{
-		m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
-		m_Car->ctrl.gear = -1;
-		m_Car->ctrl.accelCmd = 0.3f;
-		m_Car->ctrl.brakeCmd = 0.0f;
-	}
+	//	m_Car->ctrl.gear = Gear;
+	//	m_Car->ctrl.brakeCmd = Brake;
+	//	if (m_Car->ctrl.brakeCmd == 0.0f)
+	//	{
+	//		m_Car->ctrl.accelCmd = Accel;
+	//	}
+	//	else
+	//	{
+	//		m_Car->ctrl.accelCmd = 0.0f;
+	//	}
+	//}
+	//else
+	//{
+	//	m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
+	//	m_Car->ctrl.gear = -1;
+	//	m_Car->ctrl.accelCmd = 0.3f;
+	//	m_Car->ctrl.brakeCmd = 0.0f;
+	//}
+}
+
+void Robot::OnReverse()
+{
+	m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
+	m_Car->ctrl.gear = -1;
+	m_Car->ctrl.accelCmd = 0.3f;
+	m_Car->ctrl.brakeCmd = 0.0f;
 }
 
 void Robot::Update(tCarElt* Car, tSituation* Situation)

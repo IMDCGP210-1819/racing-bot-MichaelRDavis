@@ -10,7 +10,6 @@
 #include <memory>
 
 class BehaviorTree;
-class DriveTask;
 
 /**
  * This class is responsible for handling the cars driving behavior.
@@ -44,7 +43,10 @@ public:
 	void UpdateBehaviorTree();
 
 	/** Drive robot car forward. */
-	void OnDrive(tdble Accel, tdble Brake, int Gear);
+	void OnDrive();
+
+	/** Reverse robot car backwards. */
+	void OnReverse();
 
 	/** Update robot car, called once per frame. */
 	void Update(tCarElt* Car, tSituation* Situation);
@@ -70,8 +72,12 @@ public:
 	/** Check to see if the car can drive. */
 	bool CanDrive() const;
 
-	/** DriveTask can access Robots private members. */
-	friend DriveTask;
+	/** RobotTasks can access Robots private members. */
+	friend class DriveTask;
+	friend class ReverseTask;
+	friend class AccelerateTask;
+	friend class BrakeTask;
+	friend class ShiftGearTask;
 
 private:
 	/** Robot BehaviorTree. */

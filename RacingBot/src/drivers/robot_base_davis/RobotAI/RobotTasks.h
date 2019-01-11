@@ -25,15 +25,30 @@ public:
 
 class AccelerateTask : public BTTask
 {
+public:
+	AccelerateTask(const std::shared_ptr<Blackboard>& Board);
 
+	void OnInitialize() override;
+	EStatus OnUpdate() override;
+	void OnTerminate(EStatus status) override;
 };
 
 class BrakeTask : public BTTask
 {
+public:
+	BrakeTask(const std::shared_ptr<Blackboard>& Board);
 
+	void OnInitialize() override;
+	EStatus OnUpdate() override;
+	void OnTerminate(EStatus status) override;
 };
 
 class ShiftGearTask : public BTTask
 {
+public:
+	ShiftGearTask(const std::shared_ptr<Blackboard>& Board);
 
+	void OnInitialize() override;
+	EStatus OnUpdate() override;
+	void OnTerminate(EStatus status) override;
 };
