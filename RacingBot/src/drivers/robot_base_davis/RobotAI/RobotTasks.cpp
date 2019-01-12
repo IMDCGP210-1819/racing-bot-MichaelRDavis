@@ -158,3 +158,24 @@ void ShiftGearTask::OnTerminate(EStatus status)
 {
 
 }
+
+SteerTask::SteerTask(const std::shared_ptr<Blackboard>& Board)
+	: BTTask(Board)
+{
+
+}
+
+void SteerTask::OnInitialize()
+{
+
+}
+
+EStatus SteerTask::OnUpdate()
+{
+	return EStatus::ESuccess;
+}
+
+void SteerTask::OnTerminate(EStatus status)
+{
+
+}

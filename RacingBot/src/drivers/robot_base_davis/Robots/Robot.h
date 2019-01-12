@@ -12,7 +12,7 @@
 class BehaviorTree;
 
 /**
- * This class is responsible for handling the cars driving behavior.
+ * This class is responsible for handling the robot cars driving behavior.
  */
 class Robot
 {
@@ -20,7 +20,7 @@ public:
 	/** Default Robot constructor. */
 	Robot();
 
-	/** Robot constructor that sets the robot index. */
+	/** Robot constructor that sets the robot car index. */
 	Robot(int Index);
 
 	/** Default Robot destructor. */
@@ -33,19 +33,19 @@ public:
 	int PitCommand(tCarElt* Car, tSituation* Situation);
 	void EndRace(tCarElt* Car, tSituation* Situation);
 	
-	/** Create the robot Blackboard. */
+	/** Create the robot car Blackboard. */
 	void CreateBlackboard();
 
-	/** Create the robot BehaviorTree. */
+	/** Create the robot car BehaviorTree. */
 	void CreateBehaviorTree();
 
 	/** Update robot car BehvaiorTree, called once per frame. */
 	void UpdateBehaviorTree();
 
-	/** Drive robot car forward. */
+	/** Drive the robot car forward. */
 	void OnDrive();
 
-	/** Reverse robot car backwards. */
+	/** Reverse the robot car backwards. */
 	void OnReverse();
 
 	/** Update robot car, called once per frame. */
@@ -66,10 +66,13 @@ public:
 	/** Calculate the current gear */
 	int GetGear(tCarElt* Car);
 
+	/** Calculate the aerodynamic downforce coefficient. */
+	void CalculateDownforce();
+
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
 
-	/** Check to see if the car can drive. */
+	/** Check to see if the robot car can drive. */
 	bool CanDrive() const;
 
 	/** RobotTasks can access Robots private members. */
@@ -97,6 +100,15 @@ private:
 
 	/** Current robot car gear */
 	int m_Gear;
+
+	/** Mass of the robot car, including the fuel. */
+	float m_Mass;
+
+	/** Mass of the car chassis only. */
+	float m_BodyMass;
+
+	/** The aerodynamic downforce coefficient of the car. */
+	float m_Downforce;
 
 	/* Robot car properties */
 	float m_TrackAngle;

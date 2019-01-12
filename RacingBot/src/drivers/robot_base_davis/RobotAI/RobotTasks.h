@@ -13,6 +13,16 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+class SteerTask : public BTTask
+{
+public:
+	SteerTask(const std::shared_ptr<Blackboard>& Board);
+
+	void OnInitialize() override;
+	EStatus OnUpdate() override;
+	void OnTerminate(EStatus status) override;
+};
+
 class ReverseTask : public BTTask
 {
 public:

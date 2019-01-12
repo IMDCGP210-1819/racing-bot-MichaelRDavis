@@ -59,6 +59,9 @@ void Robot::NewRace(tCarElt* Car, tSituation* Situation)
 {
 	m_MaxStuckCount = int(UNSTUCK_TIME_LIMIT / RCM_MAX_DT_ROBOTS);
 	m_StuckCount = 0;
+	m_Car = Car;
+	m_BodyMass = GfParmGetNum(Car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
+	CalculateDownforce();
 }
 
 void Robot::Drive(tCarElt* Car, tSituation* Situation)
@@ -94,15 +97,15 @@ void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
 	auto driveTask = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
-	auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
-	auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
-	auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
-	auto gearTask = std::make_shared<ShiftGearTask>(m_BehaviorTree->GetBlackbaord());
+	//auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
+	//auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
+	//auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
+	//auto gearTask = std::make_shared<ShiftGearTask>(m_BehaviorTree->GetBlackbaord());
 	sequence->InsertChildNode(driveTask);
-	sequence->InsertChildNode(reverseTask);
-	sequence->InsertChildNode(accelTask);
-	sequence->InsertChildNode(brakeTask);
-	sequence->InsertChildNode(gearTask);
+	//sequence->InsertChildNode(reverseTask);
+	//sequence->InsertChildNode(accelTask);
+	//sequence->InsertChildNode(brakeTask);
+	//sequence->InsertChildNode(gearTask);
 	m_BehaviorTree->SetRootNode(sequence);
 }
 
@@ -153,6 +156,7 @@ void Robot::Update(tCarElt* Car, tSituation* Situation)
 	m_TrackAngle = RtTrackSideTgAngleL(&(Car->_trkPos));
 	m_CarAngle = m_TrackAngle - Car->_yaw;
 	NORM_PI_PI(m_CarAngle);
+	m_Mass = m_BodyMass + m_Car->_fuel;
 }
 
 float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
@@ -164,7 +168,7 @@ float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
 	else
 	{
 		float Friction = Segment->surface->kFriction;
-		return sqrt(Friction * GRAVITY_SCALE * Segment->radius);
+		return sqrt(Friction * GRAVITY_SCALE * Segment->radius) / (1.0f - MIN(1.0f, Segment->radius * m_Downforce * Friction / m_Mass));
 	}
 }
 
@@ -251,6 +255,27 @@ int Robot::GetGear(tCarElt* Car)
 
 		return Car->_gear;
 	}
+}
+
+void Robot::CalculateDownforce()
+{
+	char* WheelSections[4] = { SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL };
+	float RearWingArea = GfParmGetNum(m_Car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*)nullptr, 0.0f);
+	float RearWingAngle = GfParmGetNum(m_Car->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*)nullptr, 0.0f);
+	float WingCoefficient = 1.23f * RearWingArea * sin(RearWingAngle);
+	float FrontWing = GfParmGetNum(m_Car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0f) + GfParmGetNum(m_Car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0f);
+	float Height = 0.0f;
+	
+	for (int i = 0; i < 4; i++)
+	{
+		Height += GfParmGetNum(m_Car->_carHandle, WheelSections[i], PRM_RIDEHEIGHT, (char*)nullptr, 0.20f);
+	}
+
+	Height *= 1.5f;
+	Height = Height * Height;
+	Height = Height * Height;
+	Height = 2.0f * exp(-3.0f * Height);
+	m_Downforce = Height * FrontWing + 4.0f * WingCoefficient;
 }
 
 bool Robot::IsStuck() const
