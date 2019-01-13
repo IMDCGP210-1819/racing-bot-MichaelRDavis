@@ -84,6 +84,7 @@ public:
 	friend class AccelerateTask;
 	friend class BrakeTask;
 	friend class ShiftGearTask;
+	friend class SteerTask;
 
 private:
 	/** Robot BehaviorTree. */

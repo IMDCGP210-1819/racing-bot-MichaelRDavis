@@ -68,8 +68,8 @@ void Robot::NewRace(tCarElt* Car, tSituation* Situation)
 void Robot::Drive(tCarElt* Car, tSituation* Situation)
 {
 	m_Car = Car;
-	Update(Car, Situation);
 	memset(&Car->ctrl, 0, sizeof(tCarCtrl));
+	Update(Car, Situation);
 	UpdateBehaviorTree();
 }
 
@@ -91,22 +91,25 @@ void Robot::CreateBlackboard()
 		m_BehaviorTree->GetBlackbaord()->SetVariable(1, &(tdble)m_Car->ctrl.accelCmd);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(2, &(tdble)m_Car->ctrl.brakeCmd);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(3, &(int)m_Car->ctrl.gear);
+		m_BehaviorTree->GetBlackbaord()->SetVariable(4, &(tdble)m_Car->ctrl.steer);
 	}
 }
 
 void Robot::CreateBehaviorTree()
 {
 	auto sequence = std::make_shared<BTSequence>();
-	auto driveTask = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
-	//auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
-	//auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
-	//auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
-	//auto gearTask = std::make_shared<ShiftGearTask>(m_BehaviorTree->GetBlackbaord());
-	sequence->InsertChildNode(driveTask);
-	//sequence->InsertChildNode(reverseTask);
-	//sequence->InsertChildNode(accelTask);
-	//sequence->InsertChildNode(brakeTask);
-	//sequence->InsertChildNode(gearTask);
+	//auto driveTask = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
+	auto steerTask = std::make_shared<SteerTask>(m_BehaviorTree->GetBlackbaord());
+	auto gearTask = std::make_shared<ShiftGearTask>(m_BehaviorTree->GetBlackbaord());
+	auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
+	auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
+	auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
+	//sequence->InsertChildNode(driveTask);
+	sequence->InsertChildNode(steerTask);
+	sequence->InsertChildNode(gearTask);
+	sequence->InsertChildNode(accelTask);
+	sequence->InsertChildNode(brakeTask);
+	sequence->InsertChildNode(reverseTask);
 	m_BehaviorTree->SetRootNode(sequence);
 }
 

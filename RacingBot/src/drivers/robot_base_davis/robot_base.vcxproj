@@ -147,8 +147,8 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\Debug/robot_base.dll</OutputFile>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2017_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Debug/robot_base_davis.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>../../../export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
@@ -169,7 +169,7 @@
       <OutputFile>.\Debug/robot_base.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\robot_base</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\robot_base_davis</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
