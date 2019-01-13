@@ -69,6 +69,9 @@ public:
 	/** Calculate the aerodynamic downforce coefficient. */
 	void CalculateDownforce();
 
+	/** Calculate the aerodynamic drag coefficient. */
+	void CalculateDrag();
+
 	/** Check to see if the robot car is stuck. */
 	bool IsStuck() const;
 
@@ -104,11 +107,14 @@ private:
 	/** Mass of the robot car, including the fuel. */
 	float m_Mass;
 
-	/** Mass of the car chassis only. */
+	/** Mass of the robot car chassis only. */
 	float m_BodyMass;
 
-	/** The aerodynamic downforce coefficient of the car. */
+	/** The aerodynamic downforce coefficient of the robot car. */
 	float m_Downforce;
+
+	/** The aerodynamic drag coefficient of the robot car. */
+	float m_DragForce;
 
 	/* Robot car properties */
 	float m_TrackAngle;

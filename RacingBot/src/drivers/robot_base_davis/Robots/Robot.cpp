@@ -62,6 +62,7 @@ void Robot::NewRace(tCarElt* Car, tSituation* Situation)
 	m_Car = Car;
 	m_BodyMass = GfParmGetNum(Car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
 	CalculateDownforce();
+	CalculateDrag();
 }
 
 void Robot::Drive(tCarElt* Car, tSituation* Situation)
@@ -218,7 +219,7 @@ float Robot::GetBraking(tCarElt* Car)
 		if (TrackSpeed < Car->_speed_x)
 		{
 			float SpeedSq = TrackSpeed * TrackSpeed;
-			float BrakeDist = (CurrentSpeedSq - SpeedSq) / (2.0f * Friction * GRAVITY_SCALE);
+			float BrakeDist = m_Mass * (CurrentSpeedSq - SpeedSq) / (2.0f * (Friction * GRAVITY_SCALE * m_Mass + SpeedSq * (m_Downforce * Friction + m_DragForce)));
 			if (BrakeDist > Heading)
 			{
 				return 1.0f;
@@ -276,6 +277,13 @@ void Robot::CalculateDownforce()
 	Height = Height * Height;
 	Height = 2.0f * exp(-3.0f * Height);
 	m_Downforce = Height * FrontWing + 4.0f * WingCoefficient;
+}
+
+void Robot::CalculateDrag()
+{
+	float AirResistance = GfParmGetNum(m_Car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*)nullptr, 0.0f);
+	float FrontArea = GfParmGetNum(m_Car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)nullptr, 0.0f);
+	AirResistance = 0.645f * AirResistance * FrontArea;
 }
 
 bool Robot::IsStuck() const
