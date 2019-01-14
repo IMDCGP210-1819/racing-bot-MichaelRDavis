@@ -36,7 +36,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
-/** Accelerate the car. */
+/** Accelerate the car, apply traction control if necessary. */
 class AccelerateTask : public BTTask
 {
 public:

@@ -63,6 +63,9 @@ public:
 	/** Calculate braking */
 	float GetBraking();
 
+	/** Calculate the steering angle. */
+	float GetSteering();
+
 	/** Calculate the current gear */
 	int GetGear();
 
@@ -119,7 +122,7 @@ private:
 	int m_Gear;
 
 	/** Current steer angle. */
-	float m_SteerAngle;
+	tdble m_SteerAngle;
 
 	/** Mass of the robot car, including the fuel. */
 	float m_Mass;

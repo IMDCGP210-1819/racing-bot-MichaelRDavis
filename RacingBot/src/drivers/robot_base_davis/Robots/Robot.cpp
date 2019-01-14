@@ -61,7 +61,7 @@ void Robot::InitTrack(tTrack* Track, void* CarHandle, void** CarParamHandle, tSi
 
 void Robot::NewRace(tCarElt* Car, tSituation* Situation)
 {
-	m_StuckCount = int(UNSTUCK_TIME_LIMIT / RCM_MAX_DT_ROBOTS);
+	m_MaxStuckCount = int(UNSTUCK_TIME_LIMIT / RCM_MAX_DT_ROBOTS);
 	m_StuckCount = 0;
 	m_Car = Car;
 	m_BodyMass = GfParmGetNum(Car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
@@ -224,6 +224,13 @@ float Robot::GetBraking()
 	}
 
 	return 0.0f;
+}
+
+float Robot::GetSteering()
+{
+	float SteerAngle = m_CarAngle - m_Car->_trkPos.toMiddle / m_Car->_trkPos.seg->width;
+	m_Car->ctrl.steer = SteerAngle / m_Car->_steerLock;
+	return SteerAngle;
 }
 
 int Robot::GetGear()

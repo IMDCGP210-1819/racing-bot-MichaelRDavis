@@ -165,8 +165,8 @@ EStatus SteerTask::OnUpdate()
 	tdble steer = *(tdble*)m_Blackboard->GetVariable(4);
 	if (robot)
 	{
-		float SteerAngle = robot->m_CarAngle - robot->m_Car->_trkPos.toMiddle / robot->m_Car->_trkPos.seg->width;
-		robot->m_Car->ctrl.steer = SteerAngle / robot->m_Car->_steerLock;
+		steer = robot->GetSteering();
+		robot->m_Car->ctrl.steer = steer;
 	}
 
 	return EStatus::ESuccess;
