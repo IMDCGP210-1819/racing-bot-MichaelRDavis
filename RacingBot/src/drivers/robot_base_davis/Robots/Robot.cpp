@@ -212,8 +212,11 @@ float Robot::GetBraking()
 		TrackSpeed = GetTrackSegmentSpeed(Segment);
 		if (TrackSpeed < m_Car->_speed_x)
 		{
+			float c = Friction * GRAVITY_SCALE;
+			float d = (m_Downforce * Friction + m_DragForce) / m_Mass;
 			float SpeedSq = TrackSpeed * TrackSpeed;
-			float BrakeDist = m_Mass * (CurrentSpeedSq - SpeedSq) / (2.0f * (Friction * GRAVITY_SCALE * m_Mass + SpeedSq * (m_Downforce * Friction + m_DragForce)));
+			float vel = CurrentSpeedSq;
+			float BrakeDist = -log((c + vel * d) / (c + SpeedSq * d)) / (2.0f * d);
 			if (BrakeDist > Heading)
 			{
 				return 1.0f;
