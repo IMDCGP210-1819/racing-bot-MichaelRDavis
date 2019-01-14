@@ -3,6 +3,7 @@
 #include "../BehaviorTree/BTTask.h"
 #include "../Robots/Robot.h"
 
+/** Drive the car forward around a trajectory around the track. */
 class DriveTask : public BTTask
 {
 public:
@@ -13,6 +14,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+/** Steer the car around the track. */
 class SteerTask : public BTTask
 {
 public:
@@ -23,6 +25,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+/** Reverse the car, if the car is stuck. */
 class ReverseTask : public BTTask
 {
 public:
@@ -33,6 +36,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+/** Accelerate the car. */
 class AccelerateTask : public BTTask
 {
 public:
@@ -43,6 +47,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+/** Apply the cars brakes, apply ABS if necessary. */
 class BrakeTask : public BTTask
 {
 public:
@@ -53,6 +58,7 @@ public:
 	void OnTerminate(EStatus status) override;
 };
 
+/** Switch the car gears. */
 class ShiftGearTask : public BTTask
 {
 public:

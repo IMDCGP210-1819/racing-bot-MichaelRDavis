@@ -49,22 +49,35 @@ public:
 	void OnReverse();
 
 	/** Update robot car, called once per frame. */
-	void Update(tCarElt* Car, tSituation* Situation);
+	void Update(tSituation* Situation);
 
 	/** Get the allowed speed on the current track segment. */
 	float GetTrackSegmentSpeed(tTrackSeg* Segment);
 
 	/** Get the distance to the end of the current track segment. */
-	float GetTrackSegmentEndDistance(tCarElt* Car);
+	float GetTrackSegmentEndDistance();
 
 	/** Calculate acceleration. */
-	float GetAcceleration(tCarElt* Car);
+	float GetAcceleration();
 
 	/** Calculate braking */
-	float GetBraking(tCarElt* Car);
+	float GetBraking();
 
 	/** Calculate the current gear */
-	int GetGear(tCarElt* Car);
+	int GetGear();
+
+	/** Get the anti-lock breaking system for the brakes. */
+	float GetABS(float brake);
+
+	/** Get the traction control for the accelerator. */
+	float GetTractionControl(float accel);
+
+	/** Initialize the traction control setup for the car. */
+	void InitTractionControl();
+
+	float TCLRearWheelDrive();
+	float TCLFrontWheelDrive();
+	float TCLFourWheelDrive();
 
 	/** Calculate the aerodynamic downforce coefficient. */
 	void CalculateDownforce();
@@ -105,6 +118,9 @@ private:
 	/** Current robot car gear */
 	int m_Gear;
 
+	/** Current steer angle. */
+	float m_SteerAngle;
+
 	/** Mass of the robot car, including the fuel. */
 	float m_Mass;
 
@@ -117,16 +133,30 @@ private:
 	/** The aerodynamic drag coefficient of the robot car. */
 	float m_DragForce;
 
-	/* Robot car properties */
+	/** Angle of the track. */
 	float m_TrackAngle;
+
+	/** Angle of the car to the track. */
 	float m_CarAngle;
+
+	/** Car index. */
 	int m_Index;
+
+	/** Max stuck count. */
 	int m_MaxStuckCount;
+
+	/** Function pointer to the wheel speed. */
+	float (Robot::*GET_DRIVEN_WHEEL_SPEED)();
+
 	static int m_StuckCount;
 	static const float MAX_UNSTUCK_ANGLE;
 	static const float UNSTUCK_TIME_LIMIT;
 	static const float SHIFT;
 	static const float SHIFT_MARGIN;
+	static const float ABS_SLIP;
+	static const float ABS_MINSPEED;
+	static const float TCL_SLIP;
+	static const float TCL_MINSPEED;
 	const float GRAVITY_SCALE;
 	const float FULL_ACCELERATION;
 	const float STEERING_CONTROL;

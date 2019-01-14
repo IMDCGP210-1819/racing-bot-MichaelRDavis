@@ -14,14 +14,8 @@ void DriveTask::OnInitialize()
 EStatus DriveTask::OnUpdate()
 {
 	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
-	tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
-	tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
-	int gear = *(int*)m_Blackboard->GetVariable(3);
 	if (robot)
 	{
-		robot->m_Acceleration = (tdble)robot->GetAcceleration(robot->m_Car);
-		robot->m_Brake = (tdble)robot->GetBraking(robot->m_Car);
-		robot->m_Gear = (int)robot->GetGear(robot->m_Car);
 		robot->OnDrive();
 	}
 
@@ -77,7 +71,7 @@ EStatus AccelerateTask::OnUpdate()
 	tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
 	if (robot)
 	{
-		accel = robot->GetAcceleration(robot->m_Car);
+		accel = robot->GetTractionControl(robot->GetAcceleration());
 		if (robot->m_Car->ctrl.brakeCmd == 0.0f)
 		{
 			robot->m_Car->ctrl.accelCmd = accel;
@@ -113,7 +107,7 @@ EStatus BrakeTask::OnUpdate()
 	tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
 	if (robot)
 	{
-		brake = robot->GetBraking(robot->m_Car);
+		brake = robot->GetABS(robot->GetBraking());
 		robot->m_Car->ctrl.brakeCmd = brake;
 	}
 
@@ -142,7 +136,7 @@ EStatus ShiftGearTask::OnUpdate()
 	int gear = *(int*)m_Blackboard->GetVariable(3);
 	if (robot)
 	{
-		gear = robot->GetGear(robot->m_Car);
+		gear = robot->GetGear();
 		robot->m_Car->ctrl.gear = gear;
 	}
 
