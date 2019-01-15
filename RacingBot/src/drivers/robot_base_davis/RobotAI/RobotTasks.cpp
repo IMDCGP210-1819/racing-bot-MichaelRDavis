@@ -16,7 +16,14 @@ EStatus DriveTask::OnUpdate()
 	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
 	if (robot)
 	{
-		robot->OnDrive();
+		if (robot->CanDrive())
+		{
+			robot->OnDrive();
+		}
+		else
+		{
+			robot->OnReverse();
+		}
 	}
 
 	return EStatus::ESuccess;

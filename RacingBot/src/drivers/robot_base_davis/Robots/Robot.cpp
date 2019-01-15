@@ -127,14 +127,31 @@ void Robot::UpdateBehaviorTree()
 
 void Robot::OnDrive()
 {
-
+	if (CanDrive())
+	{
+		m_Car->ctrl.steer = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(4);
+		m_Car->ctrl.gear = *(int*)m_BehaviorTree->GetBlackbaord()->GetVariable(3);
+		m_Car->ctrl.brakeCmd = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(2);
+		if (m_Car->ctrl.brakeCmd == 0.0f)
+		{
+			m_Car->ctrl.accelCmd = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(1);
+		}
+		else
+		{
+			m_Car->ctrl.accelCmd = 0.0f;
+		}
+	}
+	else
+	{
+		OnReverse();
+	}
 }
 
 void Robot::OnReverse()
 {
 	m_Car->ctrl.steer = -m_CarAngle / m_Car->_steerLock;
 	m_Car->ctrl.gear = -1;
-	m_Car->ctrl.accelCmd = 0.3f;
+	m_Car->ctrl.accelCmd = 0.5f;
 	m_Car->ctrl.brakeCmd = 0.0f;
 }
 
@@ -155,7 +172,7 @@ float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
 	else
 	{
 		float Friction = Segment->surface->kFriction;
-		return sqrt(Friction * GRAVITY_SCALE * Segment->radius) / (1.0f - MIN(1.0f, Segment->radius * m_Downforce * Friction / m_Mass));
+		return sqrt((Friction * GRAVITY_SCALE * Segment->radius) / (1.0f - MIN(1.0f, Segment->radius * m_Downforce * Friction / m_Mass)));
 	}
 }
 
