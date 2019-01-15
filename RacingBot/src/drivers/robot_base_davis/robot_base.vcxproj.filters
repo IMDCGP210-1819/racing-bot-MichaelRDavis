@@ -47,6 +47,9 @@
     <ClCompile Include="Math\Vec2.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Line.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorTree\BehaviorTree.h">
@@ -92,6 +95,9 @@
       <Filter>BehaviorTree\Composites</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vec2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Line.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>

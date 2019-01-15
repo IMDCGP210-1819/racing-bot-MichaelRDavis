@@ -4,31 +4,31 @@ struct Vec2
 {
 public:
 	Vec2();
-	Vec2(const Vec2& Vec);
+	Vec2(const Vec2& vec);
 	Vec2(float inX, float inY);
 
-	Vec2& operator=(const Vec2& Vec);
+	Vec2& operator=(const Vec2& vec);
 
-	Vec2 operator+(const Vec2& Vec) const;
-	Vec2 operator-(const Vec2& Vec) const;
-	Vec2 operator*(const Vec2& Vec) const;
-	Vec2 operator/(const Vec2& Vec) const;
-
-	Vec2 operator*(float Scale) const;
+	Vec2 operator+(const Vec2& vec) const;
+	Vec2 operator-(const Vec2& vec) const;
 
 	Vec2 operator-() const;
 
-	float DotProduct(const Vec2& a);
+	Vec2 operator*(const float scale) const;
+
+	float operator*(const Vec2& vec) const;
+
+	friend Vec2 operator*(const float scale, const Vec2& vec);
 
 	float Length() const;
 
-	void Normalize();
+	void Normlaize();
 
-	float Distance(const Vec2& Vec) const;
+	float Distnace(const Vec2& vec) const;
 
-	float Cosalpha(const Vec2& Vec, const Vec2& Center) const;
+	float Cosalpha(const Vec2& point, const Vec2& center) const;
 
-	Vec2 Rotate(const Vec2& Vec, float Arc) const;
+	Vec2 Rotate(const Vec2& center, float arc) const;
 
 	float x;
 	float y;
