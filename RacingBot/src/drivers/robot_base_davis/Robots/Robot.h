@@ -165,5 +165,4 @@ private:
 	const float STEERING_CONTROL;
 	const float MAX_UNSTUCK_SPEED;
 	const float MIN_UNSTUCK_DIST;
-	const int MAX_UNSTUCK_COUNT;
 };

@@ -18,7 +18,6 @@ Robot::Robot()
 	: MAX_UNSTUCK_SPEED(5.0f)
 	, MIN_UNSTUCK_DIST(3.0f)
 	, STEERING_CONTROL(1.0f)
-	, MAX_UNSTUCK_COUNT(100)
 	, GRAVITY_SCALE(9.81f)
 	, FULL_ACCELERATION(1.0f)
 {
@@ -34,7 +33,6 @@ Robot::Robot(int Index)
 	: MAX_UNSTUCK_SPEED(5.0f)
 	, MIN_UNSTUCK_DIST(3.0f)
 	, STEERING_CONTROL(1.0f)
-	, MAX_UNSTUCK_COUNT(100)
 	, GRAVITY_SCALE(9.80f)
 	, FULL_ACCELERATION(1.0f)
 {
@@ -108,12 +106,12 @@ void Robot::CreateBehaviorTree()
 	auto accelTask = std::make_shared<AccelerateTask>(m_BehaviorTree->GetBlackbaord());
 	auto brakeTask = std::make_shared<BrakeTask>(m_BehaviorTree->GetBlackbaord());
 	auto reverseTask = std::make_shared<ReverseTask>(m_BehaviorTree->GetBlackbaord());
-	//sequence->InsertChildNode(driveTask);
 	sequence->InsertChildNode(steerTask);
 	sequence->InsertChildNode(gearTask);
 	sequence->InsertChildNode(accelTask);
 	sequence->InsertChildNode(brakeTask);
 	sequence->InsertChildNode(reverseTask);
+	//sequence->InsertChildNode(driveTask);
 	m_BehaviorTree->SetRootNode(sequence);
 }
 
@@ -384,7 +382,7 @@ bool Robot::IsStuck() const
 {
 	if (fabs(m_CarAngle) > MAX_UNSTUCK_ANGLE && m_Car->_speed_x < MAX_UNSTUCK_SPEED && fabs(m_Car->_trkPos.toMiddle) > MIN_UNSTUCK_DIST)
 	{
-		if (m_StuckCount > MAX_UNSTUCK_COUNT && m_Car->_trkPos.toMiddle * m_CarAngle < 0.0f)
+		if (m_StuckCount > m_MaxStuckCount && m_Car->_trkPos.toMiddle * m_CarAngle < 0.0f)
 		{
 			return true;
 		}
