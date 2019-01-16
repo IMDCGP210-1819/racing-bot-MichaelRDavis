@@ -24,7 +24,7 @@ public:
 
 	void Normlaize();
 
-	float Distnace(const Vec2& vec) const;
+	float Distance(const Vec2& vec) const;
 
 	float Cosalpha(const Vec2& point, const Vec2& center) const;
 
