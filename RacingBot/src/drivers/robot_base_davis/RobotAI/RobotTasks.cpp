@@ -14,11 +14,29 @@ void DriveTask::OnInitialize()
 EStatus DriveTask::OnUpdate()
 {
 	Robot* robot = (Robot*)m_Blackboard->GetVariable(0);
+	tdble accel = *(tdble*)m_Blackboard->GetVariable(1);
+	tdble brake = *(tdble*)m_Blackboard->GetVariable(2);
+	tdble steer = *(tdble*)m_Blackboard->GetVariable(4);
+	int gear = *(int*)m_Blackboard->GetVariable(3);
 	if (robot)
 	{
 		if (robot->CanDrive())
 		{
-			robot->OnDrive();
+			steer = robot->GetSteering();
+			gear = robot->GetGear();
+			brake = robot->GetABS(robot->GetBraking());
+			accel = robot->GetTractionControl(robot->GetAcceleration());
+			robot->m_Car->ctrl.steer = steer;
+			robot->m_Car->ctrl.gear = gear;
+			robot->m_Car->ctrl.brakeCmd = brake;
+			if (robot->m_Car->ctrl.brakeCmd == 0.0f)
+			{
+				robot->m_Car->ctrl.accelCmd = accel;
+			}
+			else
+			{
+				robot->m_Car->ctrl.accelCmd = 0.0f;
+			}
 		}
 		else
 		{
