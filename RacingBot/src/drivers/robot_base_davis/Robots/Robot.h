@@ -63,6 +63,9 @@ public:
 	/** Calculate braking */
 	float GetBraking();
 
+	/** Get the braking speed */
+	float GetBrakeSpeed();
+
 	/** Calculate the steering angle. */
 	float GetSteering();
 
@@ -176,4 +179,6 @@ private:
 	const float STEERING_CONTROL;
 	const float MAX_UNSTUCK_SPEED;
 	const float MIN_UNSTUCK_DIST;
+	const float ABS_RANGE;
+	const float TCL_RANGE;
 };

@@ -2,6 +2,7 @@
 #include "../BehaviorTree/BehaviorTree.h"
 #include "../BehaviorTree/Blackboard.h"
 #include "../BehaviorTree/Composites/BTSequence.h"
+#include "../BehaviorTree/Decorators/BTDecorator.h"
 #include "../RobotAI/RobotTasks.h"
 
 int Robot::m_StuckCount = 0;
@@ -9,9 +10,9 @@ const float Robot::MAX_UNSTUCK_ANGLE = 15.0f / 180.0f * PI;
 const float Robot::UNSTUCK_TIME_LIMIT = 2.0f;
 const float Robot::SHIFT = 0.9f;
 const float Robot::SHIFT_MARGIN = 4.0f;
-const float Robot::ABS_SLIP = 0.9f;
+const float Robot::ABS_SLIP = 2.0f;
 const float Robot::ABS_MINSPEED = 3.0f;
-const float Robot::TCL_SLIP = 0.9f;
+const float Robot::TCL_SLIP = 2.0f;
 const float Robot::TCL_MINSPEED = 3.0f;
 
 Robot::Robot()
@@ -20,6 +21,8 @@ Robot::Robot()
 	, STEERING_CONTROL(1.0f)
 	, GRAVITY_SCALE(9.81f)
 	, FULL_ACCELERATION(1.0f)
+	, ABS_RANGE(5.0f)
+	, TCL_RANGE(10.0f)
 {
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
 	if (m_BehaviorTree)
@@ -35,6 +38,8 @@ Robot::Robot(int Index)
 	, STEERING_CONTROL(1.0f)
 	, GRAVITY_SCALE(9.80f)
 	, FULL_ACCELERATION(1.0f)
+	, ABS_RANGE(5.0f)
+	, TCL_RANGE(10.0f)
 {
 	m_BehaviorTree = std::make_unique<BehaviorTree>();
 	if (m_BehaviorTree)
@@ -95,11 +100,13 @@ void Robot::CreateBlackboard()
 		m_BehaviorTree->GetBlackbaord()->SetVariable(2, &(tdble)m_Car->ctrl.brakeCmd);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(3, &(int)m_Car->ctrl.gear);
 		m_BehaviorTree->GetBlackbaord()->SetVariable(4, &(tdble)m_Car->ctrl.steer);
+		//m_BehaviorTree->GetBlackbaord()->SetVariable(5, &(tdble)m_Car->ctrl.clutchCmd);
 	}
 }
 
 void Robot::CreateBehaviorTree()
 {
+	//auto decorator = std::make_shared<BTDecorator>();
 	auto sequence = std::make_shared<BTSequence>();
 	//auto driveTask = std::make_shared<DriveTask>(m_BehaviorTree->GetBlackbaord());
 	auto steerTask = std::make_shared<SteerTask>(m_BehaviorTree->GetBlackbaord());
@@ -194,37 +201,53 @@ float Robot::GetAcceleration()
 
 float Robot::GetBraking()
 {
-	tTrackSeg* Segment = m_Car->_trkPos.seg;
-	float CurrentSpeedSq = m_Car->_speed_x * m_Car->_speed_x;
-	float Friction = Segment->surface->kFriction;
-	float MaxHeading = CurrentSpeedSq / (2.0f * Friction * GRAVITY_SCALE);
-	float Heading = GetTrackSegmentEndDistance();
-
-	float TrackSpeed = GetTrackSegmentSpeed(Segment);
-	
-	if (TrackSpeed < m_Car->_speed_x)
-		return 1.0f;
-
-	Segment = Segment->next;
-	while (Heading < MaxHeading)
+	// If the car is driving backwards apply brakes, else drive forward and apply brakes normally.
+	if (m_Car->_speed_x < -MAX_UNSTUCK_SPEED)
 	{
-		TrackSpeed = GetTrackSegmentSpeed(Segment);
+		return 1.0f;
+	}
+	else
+	{
+		tTrackSeg* Segment = m_Car->_trkPos.seg;
+		float CurrentSpeedSq = m_Car->_speed_x * m_Car->_speed_x;
+		float Friction = Segment->surface->kFriction;
+		float MaxHeading = CurrentSpeedSq / (2.0f * Friction * GRAVITY_SCALE);
+		float Heading = GetTrackSegmentEndDistance();
+
+		float TrackSpeed = GetTrackSegmentSpeed(Segment);
 		if (TrackSpeed < m_Car->_speed_x)
 		{
-			float c = Friction * GRAVITY_SCALE;
-			float d = (m_DownForce * Friction + m_DragForce) / m_Mass;
-			float SpeedSq = TrackSpeed * TrackSpeed;
-			float vel = CurrentSpeedSq;
-			float BrakeDist = -log((c + vel * d) / (c + SpeedSq * d)) / (2.0f * d);
-			if (BrakeDist > Heading)
-			{
-				return 1.0f;
-			}
+			return MIN(1.0f, (m_Car->_speed_x - TrackSpeed) / (FULL_ACCELERATION));
 		}
-		Heading += Segment->length;
-		Segment = Segment->next;
-	}
 
+		Segment = Segment->next;
+		while (Heading < MaxHeading)
+		{
+			TrackSpeed = GetTrackSegmentSpeed(Segment);
+			if (TrackSpeed < m_Car->_speed_x)
+			{
+				float Fric = Friction * GRAVITY_SCALE;
+				float Force = (m_DownForce * Friction + m_DragForce) / m_Mass;
+				float Vel1 = CurrentSpeedSq;
+				float Vel2 = TrackSpeed * TrackSpeed;
+				float BrakeDist = -log((Fric + Vel2 * Force) / (Fric + Vel1 * Force)) / (2.0f * Force);
+				if (BrakeDist > Heading)
+				{
+					return 1.0f;
+				}
+			}
+			Heading += Segment->length;
+			Segment = Segment->next;
+		}
+
+		return 0.0f;
+	}
+}
+
+float Robot::GetBrakeSpeed()
+{
+	float weight = (m_BodyMass + m_Car->_fuel * GRAVITY_SCALE);
+	float maxForce = weight + m_DownForce;
 	return 0.0f;
 }
 
@@ -238,7 +261,9 @@ float Robot::GetSteering()
 int Robot::GetGear()
 {
 	if (m_Car->_gear <= 0)
+	{
 		return 1;
+	}
 
 	float GearUp = m_Car->_gearRatio[m_Car->_gear + m_Car->_gearOffset];
 	float Omega = m_Car->_enginerpmRedLine / GearUp;
@@ -273,13 +298,13 @@ float Robot::GetABS(float brake)
 	float slip = 0.0f;
 	for (int i = 0; i < 4; i++)
 	{
-		slip += m_Car->_wheelSpinVel(i) * m_Car->_wheelRadius(i) / m_Car->_speed_X;
+		slip += m_Car->_wheelSpinVel(i) * m_Car->_wheelRadius(i);
 	}
 
-	slip = slip / 4.0f;
-	if (slip < ABS_SLIP)
+	slip = m_Car->_speed_x - slip / 4.0f;
+	if (slip > ABS_SLIP)
 	{
-		brake = brake * slip;
+		brake = brake - MIN(brake, (slip - ABS_SLIP) / ABS_RANGE);
 	}
 
 	return brake;
@@ -292,10 +317,10 @@ float Robot::GetTractionControl(float accel)
 		return accel;
 	}
 
-	float slip = m_Car->_speed_x / (this->*GET_DRIVEN_WHEEL_SPEED)();
-	if (slip < TCL_SLIP)
+	float slip = (this->*GET_DRIVEN_WHEEL_SPEED)() - m_Car->_speed_x;
+	if (slip > TCL_SLIP)
 	{
-		accel = 0.0f;
+		accel = accel - MIN(accel, (slip - TCL_SLIP) / TCL_RANGE);
 	}
 
 	return accel;
