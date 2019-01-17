@@ -12,7 +12,7 @@
 class BehaviorTree;
 
 /**
- * This class is responsible for handling the robot cars driving behavior.
+ * Robot is responsible for handling the robot cars driving behavior.
  */
 class Robot
 {
@@ -26,7 +26,7 @@ public:
 	/** Default Robot destructor. */
 	virtual ~Robot();
 
-	/** TORCS callback functions. */
+	// TORCS callback functions
 	void InitTrack(tTrack* Track, void* CarHandle, void** CarParamHandle, tSituation* Situation);
 	void NewRace(tCarElt* Car, tSituation* Situation);
 	void Drive(tCarElt* Car, tSituation* Situation);
@@ -49,7 +49,7 @@ public:
 	void OnReverse();
 
 	/** Update robot car, called once per frame. */
-	void Update(tSituation* Situation);
+	void Update();
 
 	/** Get the allowed speed on the current track segment. */
 	float GetTrackSegmentSpeed(tTrackSeg* Segment);
@@ -78,12 +78,17 @@ public:
 	/** Initialize the traction control setup for the car. */
 	void InitTractionControl();
 
+	/** Get traction control on the rear wheels. */
 	float TCLRearWheelDrive();
+
+	/** Get traction on the front wheels. */
 	float TCLFrontWheelDrive();
+
+	/** Get the traction control on all four wheels. */
 	float TCLFourWheelDrive();
 
-	/** Calculate the aerodynamic downforce coefficient. */
-	void CalculateDownforce();
+	/** Calculate the aerodynamic down force coefficient. */
+	void CalculateDownForce();
 
 	/** Calculate the aerodynamic drag coefficient. */
 	void CalculateDrag();
@@ -112,6 +117,9 @@ private:
 	/** Pointer to the track the robot car is currently driving on. */
 	tTrack* m_Track;
 
+	/** Pointer the the current situation. */
+	tSituation* m_Situation;
+
 	/** Current robot car acceleration */
 	tdble m_Acceleration;
 
@@ -130,8 +138,8 @@ private:
 	/** Mass of the robot car chassis only. */
 	float m_BodyMass;
 
-	/** The aerodynamic downforce coefficient of the robot car. */
-	float m_Downforce;
+	/** The aerodynamic down force coefficient of the robot car. */
+	float m_DownForce;
 
 	/** The aerodynamic drag coefficient of the robot car. */
 	float m_DragForce;
@@ -148,10 +156,13 @@ private:
 	/** Max stuck count. */
 	int m_MaxStuckCount;
 
+	/** Current stuck count. */
+	static int m_StuckCount;
+
 	/** Function pointer to the wheel speed. */
 	float (Robot::*GET_DRIVEN_WHEEL_SPEED)();
 
-	static int m_StuckCount;
+	// Robot car properties.
 	static const float MAX_UNSTUCK_ANGLE;
 	static const float UNSTUCK_TIME_LIMIT;
 	static const float SHIFT;

@@ -62,16 +62,17 @@ void Robot::NewRace(tCarElt* Car, tSituation* Situation)
 	m_MaxStuckCount = int(UNSTUCK_TIME_LIMIT / RCM_MAX_DT_ROBOTS);
 	m_StuckCount = 0;
 	m_Car = Car;
+	m_Situation = Situation;
 	m_BodyMass = GfParmGetNum(Car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
-	CalculateDownforce();
+	CalculateDownForce();
 	CalculateDrag();
 	InitTractionControl();
 }
 
 void Robot::Drive(tCarElt* Car, tSituation* Situation)
 {
-	Update(Situation);
 	memset(&Car->ctrl, 0, sizeof(tCarCtrl));
+	Update();
 	UpdateBehaviorTree();
 }
 
@@ -125,24 +126,7 @@ void Robot::UpdateBehaviorTree()
 
 void Robot::OnDrive()
 {
-	if (CanDrive())
-	{
-		m_Car->ctrl.steer = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(4);
-		m_Car->ctrl.gear = *(int*)m_BehaviorTree->GetBlackbaord()->GetVariable(3);
-		m_Car->ctrl.brakeCmd = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(2);
-		if (m_Car->ctrl.brakeCmd == 0.0f)
-		{
-			m_Car->ctrl.accelCmd = *(tdble*)m_BehaviorTree->GetBlackbaord()->GetVariable(1);
-		}
-		else
-		{
-			m_Car->ctrl.accelCmd = 0.0f;
-		}
-	}
-	else
-	{
-		OnReverse();
-	}
+	Update();
 }
 
 void Robot::OnReverse()
@@ -153,7 +137,7 @@ void Robot::OnReverse()
 	m_Car->ctrl.brakeCmd = 0.0f;
 }
 
-void Robot::Update(tSituation* Situation)
+void Robot::Update()
 {
 	m_TrackAngle = RtTrackSideTgAngleL(&(m_Car->_trkPos));
 	m_CarAngle = m_TrackAngle - m_Car->_yaw;
@@ -170,7 +154,7 @@ float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
 	else
 	{
 		float Friction = Segment->surface->kFriction;
-		return sqrt((Friction * GRAVITY_SCALE * Segment->radius) / (1.0f - MIN(1.0f, Segment->radius * m_Downforce * Friction / m_Mass)));
+		return sqrt((Friction * GRAVITY_SCALE * Segment->radius) / (1.0f - MIN(1.0f, Segment->radius * m_DownForce * Friction / m_Mass)));
 	}
 }
 
@@ -228,7 +212,7 @@ float Robot::GetBraking()
 		if (TrackSpeed < m_Car->_speed_x)
 		{
 			float c = Friction * GRAVITY_SCALE;
-			float d = (m_Downforce * Friction + m_DragForce) / m_Mass;
+			float d = (m_DownForce * Friction + m_DragForce) / m_Mass;
 			float SpeedSq = TrackSpeed * TrackSpeed;
 			float vel = CurrentSpeedSq;
 			float BrakeDist = -log((c + vel * d) / (c + SpeedSq * d)) / (2.0f * d);
@@ -350,7 +334,7 @@ float Robot::TCLFourWheelDrive()
 		(m_Car->_wheelSpinVel(REAR_RGT) + m_Car->_wheelSpinVel(REAR_LFT)) * m_Car->_wheelRadius(REAR_LFT) / 4.0f;
 }
 
-void Robot::CalculateDownforce()
+void Robot::CalculateDownForce()
 {
 	char* WheelSections[4] = { SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL };
 	float RearWingArea = GfParmGetNum(m_Car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*)nullptr, 0.0f);
@@ -368,7 +352,7 @@ void Robot::CalculateDownforce()
 	Height = Height * Height;
 	Height = Height * Height;
 	Height = 2.0f * exp(-3.0f * Height);
-	m_Downforce = Height * FrontWing + 4.0f * WingCoefficient;
+	m_DownForce = Height * FrontWing + 4.0f * WingCoefficient;
 }
 
 void Robot::CalculateDrag()

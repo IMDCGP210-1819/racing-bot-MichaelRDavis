@@ -8,6 +8,7 @@
 class BTSequence : public BTComposite
 {
 public:
+	// BTTask Interface.
 	void OnInitialize() override;
 	EStatus OnUpdate() override;
 	void OnTerminate(EStatus status) override;

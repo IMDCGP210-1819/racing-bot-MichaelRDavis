@@ -17,6 +17,7 @@ public:
 	BTParallel(EPolicy Success, EPolicy Failure);
 	virtual ~BTParallel();
 
+	// BTTask Interface.
 	virtual EStatus OnUpdate() override;
 	virtual void OnTerminate(EStatus status);
 
