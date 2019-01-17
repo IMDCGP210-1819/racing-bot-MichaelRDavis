@@ -150,6 +150,7 @@ void Robot::Update()
 	m_CarAngle = m_TrackAngle - m_Car->_yaw;
 	NORM_PI_PI(m_CarAngle);
 	m_Mass = m_BodyMass + m_Car->_fuel;
+	m_currentSpeed = m_Car->_speed_x * m_Car->_speed_x;
 }
 
 float Robot::GetTrackSegmentSpeed(tTrackSeg* Segment)
@@ -244,11 +245,12 @@ float Robot::GetBraking()
 	}
 }
 
-float Robot::GetBrakeSpeed()
+float Robot::GetBrakeSpeed(float brake)
 {
 	float weight = (m_BodyMass + m_Car->_fuel * GRAVITY_SCALE);
 	float maxForce = weight + m_DownForce;
-	return 0.0f;
+	float force = weight + m_DownForce * m_currentSpeed;
+	return brake * force / maxForce;
 }
 
 float Robot::GetSteering()

@@ -64,7 +64,7 @@ public:
 	float GetBraking();
 
 	/** Get the braking speed */
-	float GetBrakeSpeed();
+	float GetBrakeSpeed(float brake);
 
 	/** Calculate the steering angle. */
 	float GetSteering();
@@ -161,6 +161,9 @@ private:
 
 	/** Current stuck count. */
 	static int m_StuckCount;
+
+	/** Current speed of the robot car squared */
+	float m_currentSpeed;
 
 	/** Function pointer to the wheel speed. */
 	float (Robot::*GET_DRIVEN_WHEEL_SPEED)();

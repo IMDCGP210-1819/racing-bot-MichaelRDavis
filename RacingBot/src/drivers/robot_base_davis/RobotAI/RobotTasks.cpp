@@ -108,7 +108,7 @@ EStatus BrakeTask::OnUpdate()
 	if (robot)
 	{
 		brake = robot->GetABS(robot->GetBraking());
-		robot->m_Car->ctrl.brakeCmd = brake;
+		robot->m_Car->ctrl.brakeCmd = robot->GetBrakeSpeed(brake);
 	}
 
 	return EStatus::ESuccess;
