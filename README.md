@@ -15,6 +15,11 @@ More about this can be read in the *Behaviour Tress for decision-making in auton
 
 ## Improvements
 This section outlines possible improvements to the TORCS Racing Bot project.
+* Improve robot car steering.
+* Improve the robot cars trajectory around the track, by using some pathfinding algorithms. Machine learning could also be useful for determining the best trajectory for the car to take.
+* Add robot car opponents to race against.
+* Add collision detection and overtaking, to avoid crashing into other robot cars.
+* Add pit strategy, to repair damage and refuel the robot cars.
 
 ## Bibliography
 * Magnus Olson, MO. (2016) *Behaviour Tress for decision-making in autonomous driving*. Available at: [Link](http://www.diva-portal.org/smash/get/diva2:907048/FULLTEXT01.pdf). Accessed on: (03/12/2018).
